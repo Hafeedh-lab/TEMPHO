@@ -1,0 +1,8 @@
+.hero-button {
+  @apply relative bg-[#569b6f] text-white rounded-[30px] md:rounded-[35px] lg:rounded-[43px] font-medium hover:bg-[#4d8a63] transition-colors overflow-hidden;
+  padding-right: 4.5rem;
+}
+.hero-button .arrow-container {
+  @apply absolute top-1/2 -translate-y-1/2 right-4 bg-white rounded-full flex items-center justify-center w-[45px] h-[45px] md:w-[55px] md:h-[55px] lg:w-[62px] lg:h-[62px];
+}
+.hero-button:hover .arrow-container { @apply bg-white; }

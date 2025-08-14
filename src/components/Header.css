@@ -1,0 +1,6 @@
+.sticky-header {
+  @apply overflow-hidden w-full bg-[#FFF7EB];
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.sticky-header::-webkit-scrollbar { display: none; }

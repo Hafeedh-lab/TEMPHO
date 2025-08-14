@@ -1,0 +1,36 @@
+.search-bar-container {
+  @apply w-full flex items-center bg-white border-2 border-[#569b6f]/30 rounded-full shadow-md transition-all duration-300 ease-in-out overflow-hidden;
+}
+.search-bar-container.desktop { @apply h-16; }
+.search-bar-container.desktop.scrolled { @apply h-12; }
+.search-bar-container.mobile { @apply h-12; }
+.search-bar-container.mobile.scrolled { @apply h-10; }
+
+.section {
+  @apply flex-1 px-4 cursor-pointer border-r border-[#569b6f]/20 overflow-hidden;
+}
+.section:last-child { @apply border-r-0; }
+.label {
+  @apply block text-[#569b6f] font-semibold text-sm;
+}
+.value {
+  @apply block text-gray-700 text-sm;
+}
+
+.search-button {
+  @apply ml-2 bg-[#4CAF87] text-white rounded-full flex items-center justify-center h-10 w-10 transition-all duration-300 ease-in-out whitespace-nowrap;
+}
+.search-button.expanded {
+  @apply px-4 w-auto;
+}
+.search-button:hover { @apply bg-[#4d8a63]; }
+
+.search-bar-overlay {
+  @apply fixed inset-0 bg-black/30 opacity-0 transition-opacity duration-300 pointer-events-none z-40;
+}
+.search-bar-overlay.active {
+  @apply opacity-100 pointer-events-auto;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
