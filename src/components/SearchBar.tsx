@@ -52,7 +52,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${className}`}>
+    <div className={`search-bar relative transition-all duration-300 ease-in-out ${className}`}>
       <div
         className={`bg-white rounded-full border-2 border-[#4CAF87]/30 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${isScrolled ? 'h-12' : 'h-16'}`}
       >
@@ -111,7 +111,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               className={`search-button rounded-full bg-[#4CAF87] text-white [font-family:'Golos_Text',Helvetica] font-bold shadow-md transition-all duration-300 ${isActiveSearch ? 'px-4 h-10' : 'h-10 w-10'} ${isScrolled ? 'text-sm' : 'text-base'}`}
             >
               {isActiveSearch ? (
-                'Search'
+                <div className="flex items-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  <span className="ml-2">Search</span>
+                </div>
               ) : (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

@@ -25,7 +25,6 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
 
   const apply = () => {
     onSelect(count);
-    onClose();
   };
 
   const controls = (

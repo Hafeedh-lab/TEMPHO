@@ -1,5 +1,7 @@
 .header-sticky {
   overflow: hidden;
+  width: 100vw;
+  scrollbar-width: none;
 }
 
 .header-sticky::-webkit-scrollbar {

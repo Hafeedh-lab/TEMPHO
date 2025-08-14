@@ -30,7 +30,6 @@ const PriceDropdown: React.FC<PriceDropdownProps> = ({
             className="dropdown-item w-full text-left"
             onClick={() => {
               onSelect(price);
-              onClose();
             }}
           >
             {price}

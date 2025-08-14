@@ -20,9 +20,12 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`header-sticky fixed top-0 left-0 z-50 w-full bg-[#FFF7EB] border-b border-[#569b6f]/20 transition-all duration-300 ease-in-out origin-top transform ${isScrolled ? 'py-2 shadow-lg scale-95' : 'py-4 md:py-6 scale-100'}`}
+        className={`header-sticky fixed top-0 left-0 z-50 w-screen bg-[#FFF7EB] border-b border-[#569b6f]/20`}
       >
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div
+          className={`transition-all duration-300 ease-in-out origin-top transform ${isScrolled ? 'scale-95 py-2 shadow-lg' : 'scale-100 py-4 md:py-6'}`}
+        >
+          <div className="container mx-auto px-4 md:px-6 lg:px-8">
           {/* Desktop Layout - Logo and Search Bar Side by Side */}
           <div className="hidden md:flex items-center justify-between">
           {/* Left Side - Logo and Search Bar */}
@@ -59,10 +62,10 @@ export const Header: React.FC = () => {
               Menu
             </Button>
           </div>
-        </div>
+          </div>
 
-        {/* Mobile Layout - Logo on Top, Search Bar Below */}
-        <div className="md:hidden">
+          {/* Mobile Layout - Logo on Top, Search Bar Below */}
+          <div className="md:hidden">
           {/* Logo Row */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex-shrink-0">
@@ -98,6 +101,7 @@ export const Header: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
       </header>
       <div
         className={`search-overlay fixed inset-0 bg-black/40 ${searchActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
