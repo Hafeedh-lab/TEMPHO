@@ -1,0 +1,79 @@
+import React, { useState } from 'react';
+import { Button } from './ui/button';
+import './Dropdown.css';
+
+interface GuestsDropdownProps {
+  guests: number;
+  onSelect: (guests: number) => void;
+  onClose: () => void;
+  isMobile?: boolean;
+  className?: string;
+}
+
+const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
+  guests,
+  onSelect,
+  onClose,
+  isMobile = false,
+  className = ''
+}) => {
+  const [count, setCount] = useState(guests);
+
+  const change = (delta: number) => {
+    setCount((prev) => Math.max(1, prev + delta));
+  };
+
+  const apply = () => {
+    onSelect(count);
+    onClose();
+  };
+
+  const controls = (
+    <div className="flex flex-col items-center space-y-4">
+      <div className="flex items-center space-x-4">
+        <button
+          className="guest-btn"
+          onClick={() => change(-1)}
+          disabled={count <= 1}
+        >
+          -
+        </button>
+        <span className="text-lg" aria-live="polite">
+          {count}
+        </span>
+        <button className="guest-btn" onClick={() => change(1)}>
+          +
+        </button>
+      </div>
+      <Button
+        onClick={apply}
+        className="bg-[#4CAF87] hover:bg-[#3b9b73] text-white rounded-full px-4 py-1 transition"
+      >
+        Apply
+      </Button>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <div className="dropdown-modal">
+        <div className="modal-mobile open">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-[#4CAF87] font-semibold">Guests</h2>
+            <button className="text-2xl" onClick={onClose}>
+              &times;
+            </button>
+          </div>
+          {controls}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`dropdown-desktop open ${className}`}>{controls}</div>
+  );
+};
+
+export default GuestsDropdown;
+

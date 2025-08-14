@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import SearchBar from './SearchBar';
+import './Header.css';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,10 +18,13 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 w-full bg-[#FFF7EB] border-b border-[#569b6f]/20 transition-all duration-300 ease-in-out ${isScrolled ? 'py-2 shadow-lg' : 'py-4 md:py-6'}`}>
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Desktop Layout - Logo and Search Bar Side by Side */}
-        <div className="hidden md:flex items-center justify-between">
+    <>
+      <header
+        className={`header-sticky fixed top-0 left-0 z-50 w-full bg-[#FFF7EB] border-b border-[#569b6f]/20 transition-all duration-300 ease-in-out origin-top transform ${isScrolled ? 'py-2 shadow-lg scale-95' : 'py-4 md:py-6 scale-100'}`}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          {/* Desktop Layout - Logo and Search Bar Side by Side */}
+          <div className="hidden md:flex items-center justify-between">
           {/* Left Side - Logo and Search Bar */}
           <div className="flex items-center flex-1 max-w-4xl">
             {/* Logo */}
@@ -41,7 +46,7 @@ export const Header: React.FC = () => {
 
             {/* Search Bar */}
             <div className="flex-1 max-w-2xl">
-              <SearchBar isScrolled={isScrolled} />
+              <SearchBar isScrolled={isScrolled} onOverlayChange={setSearchActive} />
             </div>
           </div>
 
@@ -89,11 +94,15 @@ export const Header: React.FC = () => {
 
           {/* Search Bar Row */}
           <div className="w-full">
-            <SearchBar isScrolled={isScrolled} isMobile={true} />
+            <SearchBar isScrolled={isScrolled} isMobile={true} onOverlayChange={setSearchActive} />
           </div>
         </div>
       </div>
-    </header>
+      </header>
+      <div
+        className={`search-overlay fixed inset-0 bg-black/40 ${searchActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      />
+    </>
   );
 };
 
