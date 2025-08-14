@@ -4,8 +4,10 @@ import { Card, CardContent } from './ui/card';
 import './HeroSection.css';
 
 const HeroSection: React.FC = () => {
-  const scrollToServices = () => {
-    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+  const handleExploreClick = () => {
+    document
+      .getElementById('services')
+      ?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -23,7 +25,7 @@ const HeroSection: React.FC = () => {
             </p>
 
             <Button
-              onClick={scrollToServices}
+              onClick={handleExploreClick}
               className="hero-btn relative h-[55px] md:h-[65px] lg:h-[72px] w-[280px] md:w-[300px] lg:w-[328px] bg-[#4CAF87] rounded-[30px] md:rounded-[35px] lg:rounded-[43px] [font-family:'Golos_Text',Helvetica] font-medium text-white text-lg md:text-xl lg:text-2xl tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.44px] hover:bg-[#3b9b73] transition-colors overflow-hidden pr-16 md:pr-20 lg:pr-24">
               <span className="relative z-10">Explore Our Listings</span>
               <div className="absolute w-[45px] md:w-[55px] lg:w-[62px] h-[45px] md:h-[55px] lg:h-[62px] top-[5px] right-[5px] bg-white rounded-[25px] md:rounded-[30px] lg:rounded-[40px] flex items-center justify-center">
