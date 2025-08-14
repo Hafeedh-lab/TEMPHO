@@ -10,9 +10,9 @@ interface PriceDropdownProps {
 
 const prices = [
   'Any price',
-  '$500 - $1,000',
-  '$1,000 - $2,000',
-  '$2,000 - $3,000',
+  '$500 – $1,000',
+  '$1,000 – $2,000',
+  '$2,000 – $3,000',
   '$3,000+'
 ];
 
@@ -30,7 +30,6 @@ const PriceDropdown: React.FC<PriceDropdownProps> = ({
             className="dropdown-item w-full text-left"
             onClick={() => {
               onSelect(price);
-              onClose();
             }}
           >
             {price}

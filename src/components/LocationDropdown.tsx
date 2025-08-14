@@ -30,7 +30,6 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
             className="dropdown-item flex items-center w-full"
             onClick={() => {
               onSelect(loc);
-              onClose();
             }}
           >
             <svg

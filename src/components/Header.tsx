@@ -20,8 +20,11 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`header-sticky fixed top-0 left-0 z-50 w-full bg-[#FFF7EB] border-b border-[#569b6f]/20 transition-all duration-300 ease-in-out origin-top transform ${isScrolled ? 'py-2 shadow-lg scale-95' : 'py-4 md:py-6 scale-100'}`}
+        className="header-sticky fixed top-0 inset-x-0 z-50 w-screen bg-[#FFF7EB] border-b border-[#569b6f]/20"
       >
+        <div
+          className={`w-full transition-all duration-300 ease-in-out origin-top transform ${isScrolled ? 'py-2 shadow-lg scale-95' : 'py-4 md:py-6 scale-100'}`}
+        >
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           {/* Desktop Layout - Logo and Search Bar Side by Side */}
           <div className="hidden md:flex items-center justify-between">
@@ -97,8 +100,9 @@ export const Header: React.FC = () => {
             <SearchBar isScrolled={isScrolled} isMobile={true} onOverlayChange={setSearchActive} />
           </div>
         </div>
-      </div>
-      </header>
+        </div>
+        </div>
+        </header>
       <div
         className={`search-overlay fixed inset-0 bg-black/40 ${searchActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       />
