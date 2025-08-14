@@ -9,11 +9,10 @@
   padding: 1rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 50;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 
 .dropdown-desktop.open {
@@ -26,6 +25,7 @@
   border-radius: 0.5rem;
   font-family: 'Golos_Text', Helvetica, sans-serif;
   transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
 .dropdown-item:hover {
@@ -39,8 +39,6 @@
   display: flex;
   align-items: flex-end;
   background: rgba(0, 0, 0, 0.3);
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .modal-mobile {
@@ -51,23 +49,12 @@
   padding: 1rem;
   max-height: 80vh;
   overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   transform: translateY(100%);
   transition: transform 0.3s ease;
 }
 
 .modal-mobile.open {
   transform: translateY(0);
-}
-
-.dropdown-desktop::-webkit-scrollbar,
-.modal-mobile::-webkit-scrollbar {
-  display: none;
-}
-
-.dropdown-modal::-webkit-scrollbar {
-  display: none;
 }
 
 .guest-btn {
@@ -77,6 +64,11 @@
   border-radius: 9999px;
   color: #4CAF87;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  background: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .guest-btn:disabled {
