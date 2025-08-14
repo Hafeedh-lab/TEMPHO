@@ -14,6 +14,17 @@
   z-index: 50;
 }
 
+.dropdown-desktop,
+.modal-mobile {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.dropdown-desktop::-webkit-scrollbar,
+.modal-mobile::-webkit-scrollbar {
+  display: none;
+}
+
 .dropdown-desktop.open {
   opacity: 1;
   transform: translateY(0);

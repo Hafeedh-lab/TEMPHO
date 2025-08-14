@@ -28,10 +28,7 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
         <li key={loc}>
           <button
             className="dropdown-item flex items-center w-full"
-            onClick={() => {
-              onSelect(loc);
-              onClose();
-            }}
+            onClick={() => onSelect(loc)}
           >
             <svg
               className="w-4 h-4 mr-2 text-[#4CAF87]"

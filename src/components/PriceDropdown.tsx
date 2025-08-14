@@ -28,10 +28,7 @@ const PriceDropdown: React.FC<PriceDropdownProps> = ({
         <li key={price}>
           <button
             className="dropdown-item w-full text-left"
-            onClick={() => {
-              onSelect(price);
-              onClose();
-            }}
+            onClick={() => onSelect(price)}
           >
             {price}
           </button>
