@@ -9,9 +9,10 @@
   padding: 1rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 50;
+  overflow: hidden;
 }
 
 .dropdown-desktop.open {
@@ -24,6 +25,7 @@
   border-radius: 0.5rem;
   font-family: 'Golos_Text', Helvetica, sans-serif;
   transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
 .dropdown-item:hover {
@@ -62,6 +64,11 @@
   border-radius: 9999px;
   color: #4CAF87;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  background: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .guest-btn:disabled {

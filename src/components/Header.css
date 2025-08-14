@@ -1,9 +1,5 @@
 .header-sticky {
-  overflow: hidden;
-}
-
-.header-sticky::-webkit-scrollbar {
-  display: none;
+  overflow-x: hidden;
 }
 
 .search-overlay {

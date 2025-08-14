@@ -22,6 +22,10 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
   isMobile = false,
   className = ''
 }) => {
+  const handleSelect = (location: string) => {
+    onSelect(location);
+  };
+
   const content = (
     <ul className="space-y-2">
       {locations.map((loc) => (
@@ -29,8 +33,7 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
           <button
             className="dropdown-item flex items-center w-full"
             onClick={() => {
-              onSelect(loc);
-              onClose();
+              handleSelect(loc);
             }}
           >
             <svg
@@ -61,8 +64,8 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
 
   if (isMobile) {
     return (
-      <div className="dropdown-modal">
-        <div className="modal-mobile open">
+      <div className="dropdown-modal" onClick={onClose}>
+        <div className="modal-mobile open" onClick={(e) => e.stopPropagation()}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[#4CAF87] font-semibold">Where</h2>
             <button className="text-2xl" onClick={onClose}>

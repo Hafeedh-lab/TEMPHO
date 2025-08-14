@@ -19,34 +19,38 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
 }) => {
   const [count, setCount] = useState(guests);
 
-  const change = (delta: number) => {
+  const handleChange = (delta: number) => {
     setCount((prev) => Math.max(1, prev + delta));
   };
 
-  const apply = () => {
+  const handleApply = () => {
     onSelect(count);
-    onClose();
   };
 
   const controls = (
     <div className="flex flex-col items-center space-y-4">
+      <div className="text-center mb-2">
+        <span className="text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica]">
+          How many guests?
+        </span>
+      </div>
       <div className="flex items-center space-x-4">
         <button
           className="guest-btn"
-          onClick={() => change(-1)}
+          onClick={() => handleChange(-1)}
           disabled={count <= 1}
         >
           -
         </button>
-        <span className="text-lg" aria-live="polite">
+        <span className="text-lg font-medium min-w-[60px] text-center" aria-live="polite">
           {count}
         </span>
-        <button className="guest-btn" onClick={() => change(1)}>
+        <button className="guest-btn" onClick={() => handleChange(1)}>
           +
         </button>
       </div>
       <Button
-        onClick={apply}
+        onClick={handleApply}
         className="bg-[#4CAF87] hover:bg-[#3b9b73] text-white rounded-full px-4 py-1 transition"
       >
         Apply
@@ -56,8 +60,8 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
 
   if (isMobile) {
     return (
-      <div className="dropdown-modal">
-        <div className="modal-mobile open">
+      <div className="dropdown-modal" onClick={onClose}>
+        <div className="modal-mobile open" onClick={(e) => e.stopPropagation()}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[#4CAF87] font-semibold">Guests</h2>
             <button className="text-2xl" onClick={onClose}>
