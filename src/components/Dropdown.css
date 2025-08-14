@@ -1,0 +1,98 @@
+.dropdown {
+  position: absolute;
+  top: 100%;
+  margin-top: 0.5rem;
+  background: #FFF7EB;
+  border: 1px solid #4CAF87;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 50;
+  animation: fadeSlide 0.2s ease forwards;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-family: 'Golos_Text', Helvetica, sans-serif;
+  color: #333;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+.dropdown-item:hover {
+  background: rgba(76,175,135,0.1);
+}
+.guest-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+.guest-btn {
+  background: #4CAF87;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.guest-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.guest-count {
+  font-family: 'Golos_Text', Helvetica, sans-serif;
+  font-size: 1rem;
+  min-width: 24px;
+  text-align: center;
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile modal styles */
+@media (max-width: 768px) {
+  .dropdown-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease forwards;
+    z-index: 50;
+  }
+  .dropdown-modal-content {
+    background: #FFF7EB;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 1rem;
+    animation: slideUp 0.3s ease forwards;
+  }
+  .close-btn {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Hide scrollbars */
+.dropdown, .dropdown-modal-content {
+  overflow: hidden;
+}
+.dropdown::-webkit-scrollbar, .dropdown-modal-content::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,37 @@
+.border-green {
+  border-color: #4CAF87;
+}
+.section {
+  padding: 0 12px;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4CAF87;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.section-value {
+  font-size: 0.875rem;
+  color: #333;
+  font-family: 'Golos_Text', Helvetica, sans-serif;
+  white-space: nowrap;
+}
+.search-button {
+  background-color: #4CAF87;
+}
+.search-button:hover {
+  background-color: #3d8b6e;
+}
+.search-button-active {
+  background-color: #4CAF87;
+}
+.search-overlay {
+  transition: opacity 0.3s ease;
+}
+.no-scrollbar {
+  overflow: hidden;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

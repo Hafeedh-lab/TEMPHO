@@ -1,0 +1,14 @@
+.hero-button {
+  background: #4CAF87;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-button:hover {
+  background: #3d8b6e;
+}
+.hero-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,13 @@
+.header-container {
+  background: #FFF7EB;
+  overflow: hidden;
+}
+.header-container::-webkit-scrollbar {
+  display: none;
+}
+.text-green {
+  color: #4CAF87;
+}
+.border-green {
+  border-color: #4CAF87;
+}
