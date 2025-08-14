@@ -1,0 +1,12 @@
+.header-sticky {
+  overflow: hidden;
+}
+
+.header-sticky::-webkit-scrollbar {
+  display: none;
+}
+
+.search-overlay {
+  transition: opacity 0.3s ease;
+}
+
