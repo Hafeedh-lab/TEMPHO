@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import LocationDropdown from './LocationDropdown';
 import PriceDropdown from './PriceDropdown';
@@ -22,6 +22,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [price, setPrice] = useState('');
   const [guests, setGuests] = useState(1);
   const [active, setActive] = useState<null | 'location' | 'price' | 'guests'>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
+
+  const locationRef = useRef<HTMLButtonElement>(null);
+  const priceRef = useRef<HTMLButtonElement>(null);
+  const guestsRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     onOverlayChange?.(active !== null);
@@ -29,21 +34,37 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const formatGuests = (n: number) => (n === 1 ? '1 guest' : `${n} guests`);
 
+  const openDropdown = (type: 'location' | 'price' | 'guests') => {
+    const ref =
+      type === 'location' ? locationRef.current : type === 'price' ? priceRef.current : guestsRef.current;
+    if (ref) {
+      const rect = ref.getBoundingClientRect();
+      const dropdownWidth = 256; // 16rem
+      let left = rect.left + window.scrollX;
+      if (type === 'guests') {
+        left = rect.right + window.scrollX - dropdownWidth;
+      }
+      setDropdownStyle({ top: rect.bottom + window.scrollY + 8, left, width: dropdownWidth, marginTop: 0 });
+    }
+    setActive(type);
+  };
+
   const handleLocationSelect = (loc: string) => {
     setLocation(loc);
     // Auto-progression to price
-    setTimeout(() => setActive('price'), 100);
+    setTimeout(() => openDropdown('price'), 100);
   };
 
   const handlePriceSelect = (value: string) => {
     setPrice(value);
     // Auto-progression to guests
-    setTimeout(() => setActive('guests'), 100);
+    setTimeout(() => openDropdown('guests'), 100);
   };
 
   const handleGuestsSelect = (count: number) => {
     setGuests(count);
     setActive(null);
+    setDropdownStyle(null);
   };
 
   const isActiveSearch = Boolean(active || location || price || guests !== 1);
@@ -55,6 +76,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleClickOutside = () => {
     setActive(null);
+    setDropdownStyle(null);
   };
 
   return (
@@ -64,8 +86,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       >
         <div className="flex items-center h-full overflow-hidden">
           <button
+            ref={locationRef}
             className="flex-1 px-4 md:px-6 text-left border-r border-[#4CAF87]/20 focus:outline-none"
-            onClick={() => setActive('location')}
+            onClick={() => openDropdown('location')}
           >
             <span
               className={`block text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica] transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
@@ -80,8 +103,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
+            ref={priceRef}
             className="flex-1 px-4 md:px-6 text-left border-r border-[#4CAF87]/20 focus:outline-none"
-            onClick={() => setActive('price')}
+            onClick={() => openDropdown('price')}
           >
             <span
               className={`block text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica] transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
@@ -96,8 +120,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
+            ref={guestsRef}
             className="flex-1 px-4 md:px-6 text-left focus:outline-none"
-            onClick={() => setActive('guests')}
+            onClick={() => openDropdown('guests')}
           >
             <span
               className={`block text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica] transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
@@ -128,7 +153,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'location' && (
         <LocationDropdown
           isMobile={isMobile}
-          className="left-0"
+          style={dropdownStyle ?? undefined}
           onSelect={handleLocationSelect}
           onClose={handleClickOutside}
         />
@@ -137,7 +162,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'price' && (
         <PriceDropdown
           isMobile={isMobile}
-          className="left-1/3"
+          style={dropdownStyle ?? undefined}
           onSelect={handlePriceSelect}
           onClose={handleClickOutside}
         />
@@ -146,7 +171,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'guests' && (
         <GuestsDropdown
           isMobile={isMobile}
-          className="right-0"
+          style={dropdownStyle ?? undefined}
           guests={guests}
           onSelect={handleGuestsSelect}
           onClose={handleClickOutside}
