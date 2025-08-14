@@ -4,7 +4,10 @@ import { PropertyCarousels } from './PropertyCarousels';
 
 export const ServicesSection: React.FC = () => {
   return (
-    <section className="w-full min-h-[600px] md:min-h-[800px] lg:min-h-[973px] bg-[url(https://c.animaapp.com/mdww1mm3xpw4UO/img/rectangle-56.svg)] bg-cover bg-center bg-no-repeat">
+    <section
+      id="services"
+      className="w-full min-h-[600px] md:min-h-[800px] lg:min-h-[973px] bg-[url(https://c.animaapp.com/mdww1mm3xpw4UO/img/rectangle-56.svg)] bg-cover bg-center bg-no-repeat"
+    >
       <div className="container py-8 md:py-10 lg:py-12">
         {/* Section Header */}
         <div className="flex items-center mb-6 md:mb-8">
