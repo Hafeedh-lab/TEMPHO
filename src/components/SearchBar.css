@@ -1,0 +1,24 @@
+.search-bar {
+  @apply bg-white rounded-full border-2 border-[#569b6f]/30 shadow-md overflow-hidden;
+}
+.search-bar .section {
+  @apply flex flex-col flex-1 text-left px-4 cursor-pointer transition-colors duration-300;
+}
+.search-bar .section:hover {
+  background-color: rgba(76, 175, 135, 0.05);
+}
+.section-label {
+  @apply text-[#569b6f] text-xs font-semibold;
+}
+.section-value {
+  @apply text-gray-700 text-sm;
+}
+.search-trigger {
+  @apply rounded-full bg-[#4CAF87] text-white flex items-center justify-center h-10 w-10 transition-all duration-300;
+}
+.search-trigger.active {
+  @apply h-10;
+}
+.search-trigger:hover {
+  background-color: #3f8b6c;
+}

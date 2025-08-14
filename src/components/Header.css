@@ -1,0 +1,6 @@
+header {
+  scrollbar-width: none;
+}
+header::-webkit-scrollbar {
+  display: none;
+}

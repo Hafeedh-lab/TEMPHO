@@ -1,0 +1,30 @@
+.dropdown-desktop {
+  @apply absolute mt-2 bg-white rounded-2xl shadow-xl border border-[#569b6f]/20 p-4 z-50 overflow-hidden;
+  animation: fadeSlideDown 0.2s ease forwards;
+}
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.dropdown-modal {
+  @apply fixed bottom-0 left-0 w-full bg-white rounded-t-2xl p-6 z-50 shadow-xl overflow-y-auto;
+  animation: slideUp 0.3s ease forwards;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.dropdown-item {
+  @apply w-full text-left px-4 py-2 rounded-lg flex items-center transition-colors duration-200;
+}
+.dropdown-item:hover {
+  background-color: #4CAF87;
+  color: white;
+}
+.close-modal {
+  @apply absolute top-2 right-4 text-2xl text-gray-500;
+}
+.dropdown-desktop::-webkit-scrollbar,
+.dropdown-modal::-webkit-scrollbar {
+  display: none;
+}

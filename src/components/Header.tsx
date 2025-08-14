@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import SearchBar from './SearchBar';
+import './Header.css';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,7 +17,9 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 w-full bg-[#FFF7EB] border-b border-[#569b6f]/20 transition-all duration-300 ease-in-out ${isScrolled ? 'py-2 shadow-lg' : 'py-4 md:py-6'}`}>
+    <header
+      className={`sticky top-0 z-50 w-full bg-[#FFF7EB] overflow-hidden border-b border-[#569b6f]/20 transition-all duration-300 ease-in-out ${isScrolled ? 'py-2 shadow-lg' : 'py-4 md:py-6'}`}
+    >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Desktop Layout - Logo and Search Bar Side by Side */}
         <div className="hidden md:flex items-center justify-between">
