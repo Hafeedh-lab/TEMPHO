@@ -3,11 +3,27 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import ListingCard from '../../components/ListingCard';
 import MapPanel from '../../components/MapPanel';
-import useListingsData from '../../hooks/useListingsData';
+import { mockListings } from '../../data/mockListings';
 import '../../styles/Listings.css';
 
 export const ListingsPage: React.FC = () => {
-  const { listings } = useListingsData();
+  // Use mock listings with demo images
+  const demoListings = mockListings.map(listing => ({
+    ...listing,
+    image: `https://images.pexels.com/photos/${
+      listing.id === 1 ? '1396122' : 
+      listing.id === 2 ? '1396132' : 
+      listing.id === 3 ? '1396125' : 
+      '1396129'
+    }/pexels-photo-${
+      listing.id === 1 ? '1396122' : 
+      listing.id === 2 ? '1396132' : 
+      listing.id === 3 ? '1396125' : 
+      '1396129'
+    }.jpeg?auto=compress&cs=tinysrgb&w=800`
+  }));
+  
+  const listings = demoListings;
   const [selected, setSelected] = useState<number | null>(null);
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
