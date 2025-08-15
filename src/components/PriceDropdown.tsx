@@ -1,11 +1,12 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import './Dropdown.css';
 
 interface PriceDropdownProps {
   onSelect: (price: string) => void;
   onClose: () => void;
   isMobile?: boolean;
-  className?: string;
+  anchor?: DOMRect | null;
 }
 
 const prices = [
@@ -20,7 +21,7 @@ const PriceDropdown: React.FC<PriceDropdownProps> = ({
   onSelect,
   onClose,
   isMobile = false,
-  className = ''
+  anchor
 }) => {
   const handleSelect = (price: string) => {
     onSelect(price);
@@ -44,7 +45,7 @@ const PriceDropdown: React.FC<PriceDropdownProps> = ({
   );
 
   if (isMobile) {
-    return (
+    return createPortal(
       <div className="dropdown-modal" onClick={onClose}>
         <div className="modal-mobile open" onClick={(e) => e.stopPropagation()}>
           <div className="flex justify-between items-center mb-4">
@@ -55,14 +56,21 @@ const PriceDropdown: React.FC<PriceDropdownProps> = ({
           </div>
           {content}
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
-  return (
-    <div className={`dropdown-desktop open ${className}`}>
+  const style: React.CSSProperties = {
+    top: anchor ? anchor.bottom + window.scrollY : 0,
+    left: anchor ? anchor.left + window.scrollX : 0
+  };
+
+  return createPortal(
+    <div className={`dropdown-desktop open`} style={style}>
       {content}
-    </div>
+    </div>,
+    document.body
   );
 };
 

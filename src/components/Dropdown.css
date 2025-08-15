@@ -1,6 +1,6 @@
 .dropdown-desktop {
   position: absolute;
-  top: 100%;
+  /* top is set dynamically */
   margin-top: 0.5rem;
   width: 16rem;
   background: #fff;
@@ -11,7 +11,7 @@
   opacity: 0;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 50;
+  z-index: 100;
   overflow: hidden;
 }
 
@@ -35,7 +35,7 @@
 .dropdown-modal {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: flex-end;
   background: rgba(0, 0, 0, 0.3);

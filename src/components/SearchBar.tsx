@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import LocationDropdown from './LocationDropdown';
 import PriceDropdown from './PriceDropdown';
@@ -22,10 +22,34 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [price, setPrice] = useState('');
   const [guests, setGuests] = useState(1);
   const [active, setActive] = useState<null | 'location' | 'price' | 'guests'>(null);
+  const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const locationRef = useRef<HTMLButtonElement>(null);
+  const priceRef = useRef<HTMLButtonElement>(null);
+  const guestsRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     onOverlayChange?.(active !== null);
   }, [active, onOverlayChange]);
+
+  useEffect(() => {
+    if (!active) return;
+    const ref =
+      active === 'location'
+        ? locationRef.current
+        : active === 'price'
+        ? priceRef.current
+        : guestsRef.current;
+    const update = () => {
+      if (ref) setAnchor(ref.getBoundingClientRect());
+    };
+    update();
+    window.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, [active]);
 
   const formatGuests = (n: number) => (n === 1 ? '1 guest' : `${n} guests`);
 
@@ -57,6 +81,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     setActive(null);
   };
 
+  const openDropdown = (type: 'location' | 'price' | 'guests') => {
+    const ref =
+      type === 'location'
+        ? locationRef.current
+        : type === 'price'
+        ? priceRef.current
+        : guestsRef.current;
+    if (ref) setAnchor(ref.getBoundingClientRect());
+    setActive(type);
+  };
+
   return (
     <div className={`relative transition-all duration-300 ease-in-out ${className}`}>
       <div
@@ -64,8 +99,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       >
         <div className="flex items-center h-full overflow-hidden">
           <button
+            ref={locationRef}
             className="flex-1 px-4 md:px-6 text-left border-r border-[#4CAF87]/20 focus:outline-none"
-            onClick={() => setActive('location')}
+            onClick={() => openDropdown('location')}
           >
             <span
               className={`block text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica] transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
@@ -80,8 +116,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
+            ref={priceRef}
             className="flex-1 px-4 md:px-6 text-left border-r border-[#4CAF87]/20 focus:outline-none"
-            onClick={() => setActive('price')}
+            onClick={() => openDropdown('price')}
           >
             <span
               className={`block text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica] transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
@@ -96,8 +133,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
+            ref={guestsRef}
             className="flex-1 px-4 md:px-6 text-left focus:outline-none"
-            onClick={() => setActive('guests')}
+            onClick={() => openDropdown('guests')}
           >
             <span
               className={`block text-[#4CAF87] font-semibold [font-family:'Golos_Text',Helvetica] transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
@@ -128,7 +166,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'location' && (
         <LocationDropdown
           isMobile={isMobile}
-          className="left-0"
+          anchor={anchor}
           onSelect={handleLocationSelect}
           onClose={handleClickOutside}
         />
@@ -137,20 +175,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'price' && (
         <PriceDropdown
           isMobile={isMobile}
-          className="left-1/3"
+          anchor={anchor}
           onSelect={handlePriceSelect}
           onClose={handleClickOutside}
         />
       )}
 
       {active === 'guests' && (
-        <GuestsDropdown
-          isMobile={isMobile}
-          className="right-0"
-          guests={guests}
-          onSelect={handleGuestsSelect}
-          onClose={handleClickOutside}
-        />
+          <GuestsDropdown
+            isMobile={isMobile}
+            anchor={anchor}
+            guests={guests}
+            onSelect={handleGuestsSelect}
+            onClose={handleClickOutside}
+          />
       )}
     </div>
   );
