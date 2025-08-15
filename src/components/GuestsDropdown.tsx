@@ -9,6 +9,7 @@ interface GuestsDropdownProps {
   onClose: () => void;
   isMobile?: boolean;
   style?: React.CSSProperties;
+  dropdownRef?: React.RefObject<HTMLDivElement>;
 }
 
 const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
@@ -16,7 +17,8 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
   onSelect,
   onClose,
   isMobile = false,
-  style
+  style,
+  dropdownRef
 }) => {
   const [count, setCount] = useState(guests);
 
@@ -62,7 +64,11 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
   if (isMobile) {
     return createPortal(
       <div className="dropdown-modal" onClick={onClose}>
-        <div className="modal-mobile open" onClick={(e) => e.stopPropagation()}>
+        <div
+          ref={dropdownRef}
+          className="modal-mobile open"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[#4CAF87] font-semibold">Guests</h2>
             <button className="text-2xl" onClick={onClose}>
@@ -77,7 +83,7 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
   }
 
   return createPortal(
-    <div className="dropdown-desktop open" style={style}>
+    <div ref={dropdownRef} className="dropdown-desktop open" style={style}>
       {controls}
     </div>,
     document.body

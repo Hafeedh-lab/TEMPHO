@@ -6,7 +6,6 @@ import './Header.css';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [searchActive, setSearchActive] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +48,7 @@ export const Header: React.FC = () => {
 
                 {/* Search Bar */}
                 <div className="flex-1 max-w-2xl">
-                  <SearchBar isScrolled={isScrolled} onOverlayChange={setSearchActive} />
+                  <SearchBar isScrolled={isScrolled} />
                 </div>
               </div>
 
@@ -100,15 +99,12 @@ export const Header: React.FC = () => {
 
               {/* Search Bar Row */}
               <div className="w-full">
-                <SearchBar isScrolled={isScrolled} isMobile={true} onOverlayChange={setSearchActive} />
+                <SearchBar isScrolled={isScrolled} isMobile={true} />
               </div>
             </div>
           </div>
         </div>
       </header>
-      <div
-        className={`search-overlay fixed inset-0 bg-black/40 ${searchActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-      />
     </>
   );
 };

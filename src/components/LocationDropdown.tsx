@@ -7,6 +7,7 @@ interface LocationDropdownProps {
   onClose: () => void;
   isMobile?: boolean;
   style?: React.CSSProperties;
+  dropdownRef?: React.RefObject<HTMLDivElement>;
 }
 
 const locations = [
@@ -21,7 +22,8 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
   onSelect,
   onClose,
   isMobile = false,
-  style
+  style,
+  dropdownRef
 }) => {
   const handleSelect = (location: string) => {
     onSelect(location);
@@ -66,7 +68,11 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
   if (isMobile) {
     return createPortal(
       <div className="dropdown-modal" onClick={onClose}>
-        <div className="modal-mobile open" onClick={(e) => e.stopPropagation()}>
+        <div
+          ref={dropdownRef}
+          className="modal-mobile open"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[#4CAF87] font-semibold">Where</h2>
             <button className="text-2xl" onClick={onClose}>
@@ -81,7 +87,7 @@ const LocationDropdown: React.FC<LocationDropdownProps> = ({
   }
 
   return createPortal(
-    <div className="dropdown-desktop open" style={style}>
+    <div ref={dropdownRef} className="dropdown-desktop open" style={style}>
       {content}
     </div>,
     document.body
