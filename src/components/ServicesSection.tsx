@@ -13,7 +13,7 @@ export const ServicesSection: React.FC = () => {
         <div className="flex items-center mb-6 md:mb-8">
           <div className="w-3 h-3 bg-[#569b6f] rounded-md mr-4 md:mr-6 lg:mr-[22px] flex-shrink-0" />
           <Badge className="bg-transparent [font-family:'Golos_Text',Helvetica] font-semibold text-[#569b6f] text-base md:text-lg lg:text-xl tracking-[1.5px] md:tracking-[2px] lg:tracking-[2.60px] leading-[1.2] lg:leading-[21.1px] p-0">
-            OUR SERVICES
+            OUR LISTINGS
           </Badge>
         </div>
 
@@ -24,7 +24,7 @@ export const ServicesSection: React.FC = () => {
               Explore Our
             </span>
             <span className="font-medium text-[#787878] text-2xl md:text-3xl lg:text-[40px] leading-tight md:leading-[1.2] lg:leading-[42.2px] tracking-[0.5px] md:tracking-[0.6px] lg:tracking-[0.80px] block">
-              Services
+              LISTINGS
             </span>
           </div>
         </div>
