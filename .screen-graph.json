@@ -10,29 +10,47 @@
       "isRoot": true
     },
     {
-      "id": "src/pages/listings.tsx",
-      "label": "listings",
+      "id": "src/pages/listings/500-halderfair-tower.tsx",
+      "label": "500-halderfair-tower",
       "routes": [
-        "/listings"
+        "/listings/500-halderfair-tower"
+      ]
+    },
+    {
+      "id": "src/pages/listings/54-ferrinhill-street.tsx",
+      "label": "54-ferrinhill-street",
+      "routes": [
+        "/listings/54-ferrinhill-street"
+      ]
+    },
+    {
+      "id": "src/pages/listings/23-siennalane-hill.tsx",
+      "label": "23-siennalane-hill",
+      "routes": [
+        "/listings/23-siennalane-hill"
+      ]
+    },
+    {
+      "id": "src/pages/listings/789-maple-street.tsx",
+      "label": "789-maple-street",
+      "routes": [
+        "/listings/789-maple-street"
+      ]
+    },
+    {
+      "id": "src/pages/listings/456-oak-avenue.tsx",
+      "label": "456-oak-avenue",
+      "routes": [
+        "/listings/456-oak-avenue"
+      ]
+    },
+    {
+      "id": "src/pages/listings/123-pine-road.tsx",
+      "label": "123-pine-road",
+      "routes": [
+        "/listings/123-pine-road"
       ]
     }
   ],
-  "edges": [
-    {
-      "id": "src/pages/listings.tsx:26:4-to-src/pages/listings.tsx",
-      "source": "src/pages/listings.tsx",
-      "target": "src/pages/listings.tsx",
-      "data": {
-        "viaRoute": "/listings",
-        "trigger": {
-          "element": "navigate('/listings')",
-          "line": 26,
-          "endLine": 26,
-          "column": 4,
-          "endColumn": 25,
-          "sourceFile": "src/pages/listings.tsx"
-        }
-      }
-    }
-  ]
+  "edges": []
 }
