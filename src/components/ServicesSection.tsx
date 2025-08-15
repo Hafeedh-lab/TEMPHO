@@ -24,7 +24,7 @@ export const ServicesSection: React.FC = () => {
               Explore Our
             </span>
             <span className="font-medium text-[#787878] text-2xl md:text-3xl lg:text-[40px] leading-tight md:leading-[1.2] lg:leading-[42.2px] tracking-[0.5px] md:tracking-[0.6px] lg:tracking-[0.80px] block">
-              LISTINGS
+              Listings
             </span>
           </div>
         </div>
