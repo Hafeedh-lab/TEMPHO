@@ -1,4 +1,38 @@
 {
-  "nodes": [],
-  "edges": []
+  "nodes": [
+    {
+      "id": "src/screens/House/House.tsx",
+      "label": "House",
+      "routes": [
+        "/"
+      ],
+      "dataModelId": "2060:120",
+      "isRoot": true
+    },
+    {
+      "id": "src/pages/listings.tsx",
+      "label": "listings",
+      "routes": [
+        "/listings"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "src/pages/listings.tsx:26:4-to-src/pages/listings.tsx",
+      "source": "src/pages/listings.tsx",
+      "target": "src/pages/listings.tsx",
+      "data": {
+        "viaRoute": "/listings",
+        "trigger": {
+          "element": "navigate('/listings')",
+          "line": 26,
+          "endLine": 26,
+          "column": 4,
+          "endColumn": 25,
+          "sourceFile": "src/pages/listings.tsx"
+        }
+      }
+    }
+  ]
 }
