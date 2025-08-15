@@ -1,0 +1,32 @@
+.listings-page {
+  font-family: 'Golos_Text', Helvetica, sans-serif;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.map-wrapper {
+  height: 400px;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    flex-direction: row;
+  }
+  .map-section {
+    width: 50%;
+  }
+  .map-wrapper {
+    height: calc(100vh - 120px);
+    position: sticky;
+    top: 100px;
+  }
+}
