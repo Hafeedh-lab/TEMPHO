@@ -1,0 +1,36 @@
+.listings-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.listings-content {
+  padding-top: 100px;
+}
+
+.listings-list {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .listings-page {
+    flex-direction: row;
+  }
+  .listings-list {
+    width: 60%;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+  .listings-map {
+    width: 40%;
+    height: calc(100vh - 100px);
+    position: sticky;
+    top: 100px;
+  }
+}
+
+@media (max-width: 767px) {
+  .listings-map {
+    width: 100%;
+    height: 300px;
+  }
+}
