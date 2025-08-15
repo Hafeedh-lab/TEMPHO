@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from './ui/button';
 import LocationDropdown from './LocationDropdown';
 import PriceDropdown from './PriceDropdown';
@@ -12,12 +13,24 @@ interface SearchBarProps {
   onOverlayChange?: (active: boolean) => void;
 }
 
+const priceLabels: Record<string, string> = {
+  '': 'Any price',
+  '500-1000': '$500 – $1,000',
+  '1000-2000': '$1,000 – $2,000',
+  '2000-3000': '$2,000 – $3,000',
+  '3000-': '$3,000+'
+};
+
 export const SearchBar: React.FC<SearchBarProps> = ({
   isScrolled,
   isMobile = false,
   className = '',
   onOverlayChange
 }) => {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { pathname } = useLocation();
+
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
   const [guests, setGuests] = useState(1);
@@ -31,6 +44,29 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   useEffect(() => {
     onOverlayChange?.(active !== null);
   }, [active, onOverlayChange]);
+
+  // Sync state with URL when on listings page
+  useEffect(() => {
+    if (pathname === '/listings') {
+      const loc = searchParams.get('location') || '';
+      const pr = searchParams.get('price') || '';
+      const g = parseInt(searchParams.get('guests') || '1', 10);
+      setLocation(loc);
+      setPrice(pr);
+      setGuests(g || 1);
+    }
+  }, [pathname, searchParams]);
+
+  const updateParam = (key: string, value: string | number | undefined) => {
+    if (pathname !== '/listings') return;
+    const params = new URLSearchParams(searchParams);
+    if (!value || value === '' || value === '1') {
+      params.delete(key);
+    } else {
+      params.set(key, String(value));
+    }
+    setSearchParams(params);
+  };
 
   const formatGuests = (n: number) => (n === 1 ? '1 guest' : `${n} guests`);
 
@@ -51,18 +87,21 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleLocationSelect = (loc: string) => {
     setLocation(loc);
+    updateParam('location', loc);
     // Auto-progression to price
     setTimeout(() => openDropdown('price'), 100);
   };
 
   const handlePriceSelect = (value: string) => {
     setPrice(value);
+    updateParam('price', value);
     // Auto-progression to guests
     setTimeout(() => openDropdown('guests'), 100);
   };
 
   const handleGuestsSelect = (count: number) => {
     setGuests(count);
+    updateParam('guests', count);
     setActive(null);
     setDropdownStyle(null);
   };
@@ -70,7 +109,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const isActiveSearch = Boolean(active || location || price || guests !== 1);
 
   const handleSearch = () => {
-    console.log('Search', { location, price, guests });
+    const params = new URLSearchParams();
+    if (location) params.set('location', location);
+    if (price) params.set('price', price);
+    if (guests !== 1) params.set('guests', String(guests));
+    navigate(`/listings${params.toString() ? `?${params.toString()}` : ''}`);
     setActive(null);
   };
 
@@ -115,7 +158,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             <span
               className={`block [font-family:'Golos_Text',Helvetica] text-gray-700 transition-all duration-300 ${isScrolled ? 'text-sm' : 'text-base'}`}
             >
-              {price || 'Any price'}
+              {priceLabels[price] || 'Any price'}
             </span>
           </button>
 
@@ -182,4 +225,3 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 };
 
 export default SearchBar;
-
