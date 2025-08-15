@@ -15,9 +15,67 @@
       "routes": [
         "/listings"
       ]
+    },
+    {
+      "id": "src/pages/listings/500-halderfair-tower.tsx",
+      "label": "500-halderfair-tower",
+      "routes": [
+        "/listings/500-halderfair-tower"
+      ]
+    },
+    {
+      "id": "src/pages/listings/54-ferrinhill-street.tsx",
+      "label": "54-ferrinhill-street",
+      "routes": [
+        "/listings/54-ferrinhill-street"
+      ]
+    },
+    {
+      "id": "src/pages/listings/23-siennalane-hill.tsx",
+      "label": "23-siennalane-hill",
+      "routes": [
+        "/listings/23-siennalane-hill"
+      ]
+    },
+    {
+      "id": "src/pages/listings/789-maple-street.tsx",
+      "label": "789-maple-street",
+      "routes": [
+        "/listings/789-maple-street"
+      ]
+    },
+    {
+      "id": "src/pages/listings/456-oak-avenue.tsx",
+      "label": "456-oak-avenue",
+      "routes": [
+        "/listings/456-oak-avenue"
+      ]
+    },
+    {
+      "id": "src/pages/listings/123-pine-road.tsx",
+      "label": "123-pine-road",
+      "routes": [
+        "/listings/123-pine-road"
+      ]
     }
   ],
   "edges": [
+    {
+      "id": "src/components/CTASection.tsx:15:8-to-src/pages/listings.tsx",
+      "source": "src/screens/House/House.tsx",
+      "target": "src/pages/listings.tsx",
+      "data": {
+        "viaRoute": "/listings",
+        "trigger": {
+          "element": "<Link to=\"/listings\">\n          <Button className=\"bg-[#4CAF87] hover:bg-[#3b9b73] text-white text-lg md:text-xl px-8 py-4 rounded-full\">\n            Find Your Home\n          </Button>\n        </Link>",
+          "line": 15,
+          "endLine": 19,
+          "column": 8,
+          "endColumn": 15,
+          "sourceFile": "src/components/CTASection.tsx"
+        }
+      }
+    },
     {
       "id": "src/pages/listings.tsx:26:4-to-src/pages/listings.tsx",
       "source": "src/pages/listings.tsx",
