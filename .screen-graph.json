@@ -1,4 +1,21 @@
 {
-  "nodes": [],
+  "nodes": [
+    {
+      "id": "src/screens/House/House.tsx",
+      "label": "House",
+      "routes": [
+        "/"
+      ],
+      "dataModelId": "2060:120",
+      "isRoot": true
+    },
+    {
+      "id": "src/pages/listings.tsx",
+      "label": "listings",
+      "routes": [
+        "/listings"
+      ]
+    }
+  ],
   "edges": []
 }
