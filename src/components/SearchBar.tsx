@@ -1,3 +1,4 @@
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import LocationDropdown from './LocationDropdown';
@@ -24,6 +25,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [active, setActive] = useState<null | 'location' | 'price' | 'guests'>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
+  const navigate = useNavigate();
+  const currentLocation = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const locationRef = useRef<HTMLButtonElement>(null);
   const priceRef = useRef<HTMLButtonElement>(null);
   const guestsRef = useRef<HTMLButtonElement>(null);
@@ -31,6 +36,24 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   useEffect(() => {
     onOverlayChange?.(active !== null);
   }, [active, onOverlayChange]);
+
+  useEffect(() => {
+    if (currentLocation.pathname === '/listings') {
+      setLocation(searchParams.get('location') || '');
+      setPrice(searchParams.get('price') || '');
+      setGuests(parseInt(searchParams.get('guests') || '1', 10));
+    }
+  }, [searchParams, currentLocation.pathname]);
+
+  const updateParam = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    setSearchParams(params);
+  };
 
   const formatGuests = (n: number) => (n === 1 ? '1 guest' : `${n} guests`);
 
@@ -51,18 +74,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleLocationSelect = (loc: string) => {
     setLocation(loc);
-    // Auto-progression to price
+    if (currentLocation.pathname === '/listings') updateParam('location', loc);
     setTimeout(() => openDropdown('price'), 100);
   };
 
   const handlePriceSelect = (value: string) => {
     setPrice(value);
-    // Auto-progression to guests
+    if (currentLocation.pathname === '/listings') updateParam('price', value);
     setTimeout(() => openDropdown('guests'), 100);
   };
 
   const handleGuestsSelect = (count: number) => {
-    setGuests(count);
+    const g = Math.max(1, count);
+    setGuests(g);
+    if (currentLocation.pathname === '/listings') updateParam('guests', String(g));
     setActive(null);
     setDropdownStyle(null);
   };
@@ -70,7 +95,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const isActiveSearch = Boolean(active || location || price || guests !== 1);
 
   const handleSearch = () => {
-    console.log('Search', { location, price, guests });
+    const params = new URLSearchParams();
+    if (location) params.set('location', location);
+    if (price) params.set('price', price);
+    if (guests && guests !== 1) params.set('guests', String(guests));
+    navigate(`/listings${params.toString() ? `?${params.toString()}` : ''}`);
     setActive(null);
   };
 
@@ -182,4 +211,3 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 };
 
 export default SearchBar;
-
