@@ -10,7 +10,6 @@ interface SearchBarProps {
   isScrolled: boolean;
   isMobile?: boolean;
   className?: string;
-  onOverlayChange?: (active: boolean) => void;
 }
 
 const priceLabels: Record<string, string> = {
@@ -24,8 +23,7 @@ const priceLabels: Record<string, string> = {
 export const SearchBar: React.FC<SearchBarProps> = ({
   isScrolled,
   isMobile = false,
-  className = '',
-  onOverlayChange
+  className = ''
 }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,10 +38,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const locationRef = useRef<HTMLButtonElement>(null);
   const priceRef = useRef<HTMLButtonElement>(null);
   const guestsRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    onOverlayChange?.(active !== null);
-  }, [active, onOverlayChange]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync state with URL when on listings page
   useEffect(() => {
@@ -70,7 +65,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const formatGuests = (n: number) => (n === 1 ? '1 guest' : `${n} guests`);
 
-  const openDropdown = (type: 'location' | 'price' | 'guests') => {
+  const updatePosition = (type: 'location' | 'price' | 'guests') => {
     const ref =
       type === 'location' ? locationRef.current : type === 'price' ? priceRef.current : guestsRef.current;
     if (ref) {
@@ -80,8 +75,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       if (type === 'guests') {
         left = rect.right + window.scrollX - dropdownWidth;
       }
-      setDropdownStyle({ top: rect.bottom + window.scrollY + 8, left, width: dropdownWidth, marginTop: 0 });
+      setDropdownStyle({ top: rect.bottom + 8, left, width: dropdownWidth });
     }
+  };
+
+  const openDropdown = (type: 'location' | 'price' | 'guests') => {
+    updatePosition(type);
     setActive(type);
   };
 
@@ -122,8 +121,47 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     setDropdownStyle(null);
   };
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!active || isMobile) return;
+    const handleClick = (e: MouseEvent) => {
+      const dropdown = document.querySelector('.dropdown-desktop.open, .modal-mobile.open');
+      if (
+        dropdown && dropdown.contains(e.target as Node)
+      ) {
+        return;
+      }
+      if (containerRef.current && containerRef.current.contains(e.target as Node)) {
+        return;
+      }
+      handleClickOutside();
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('touchstart', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('touchstart', handleClick);
+    };
+  }, [active, isMobile]);
+
+  // Keep dropdown attached on scroll/resize
+  useEffect(() => {
+    if (!active) return;
+    const handleScroll = () => updatePosition(active);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [active]);
+
+  useEffect(() => {
+    if (active) updatePosition(active);
+  }, [active, isScrolled]);
+
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${className}`}>
+    <div ref={containerRef} className={`relative transition-all duration-300 ease-in-out ${className}`}>
       <div
         className={`bg-white rounded-full border-2 border-[#4CAF87]/30 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${isScrolled ? 'h-12' : 'h-16'}`}
       >
