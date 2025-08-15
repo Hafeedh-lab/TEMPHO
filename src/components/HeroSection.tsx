@@ -17,11 +17,11 @@ const HeroSection: React.FC = () => {
           {/* Hero Content */}
           <div className="flex-1 pt-16 md:pt-24 lg:pt-40 text-center lg:text-left">
             <h1 className="[font-family:'Golos_Text',Helvetica] font-semibold text-black text-4xl md:text-6xl lg:text-8xl tracking-[-2px] md:tracking-[-4px] lg:tracking-[-5.76px] leading-tight md:leading-[1.1] lg:leading-[84.3px] mb-6 md:mb-8 lg:mb-10">
-              Welcome To Your <br />
+              Welcome to Your <br />
               Canadian Dream
             </h1>
             <p className="w-full max-w-[400px] md:max-w-[500px] lg:max-w-[522px] mx-auto lg:mx-0 [font-family:'Golos_Text',Helvetica] font-medium text-[#6f6f6f] text-lg md:text-2xl lg:text-[32px] tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-1.92px] leading-relaxed md:leading-[1.2] lg:leading-[28.1px] mb-8 md:mb-10 lg:mb-12">
-              At the frontier of the living lavish lifestyle in Canada
+              Find your perfect home at the frontier of Canada’s lavish living. Whether you’re a newcomer, student, or simply seeking a fresh start, Tempho makes it easy to discover secure, stylish, and affordable furnished rentals—all in one place.
             </p>
 
             <Button
@@ -36,6 +36,9 @@ const HeroSection: React.FC = () => {
                 />
               </div>
             </Button>
+            <p className="mt-4 [font-family:'Golos_Text',Helvetica] text-sm md:text-base text-[#6f6f6f]">
+              Trusted by many, with over CA$150K+ in revenue and growing.
+            </p>
           </div>
 
           {/* Hero Image Section - Hidden on mobile, visible on large screens */}
