@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Header from '../components/Header';
-import ListingCard from '../components/ListingCard';
-import MapPanel from '../components/MapPanel';
-import useListingsData from '../hooks/useListingsData';
-import '../styles/Listings.css';
+import Header from '../../components/Header';
+import ListingCard from '../../components/ListingCard';
+import MapPanel from '../../components/MapPanel';
+import useListingsData from '../../hooks/useListingsData';
+import '../../styles/Listings.css';
 
 export const ListingsPage: React.FC = () => {
   const { listings } = useListingsData();

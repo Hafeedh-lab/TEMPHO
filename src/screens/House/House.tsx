@@ -1,6 +1,8 @@
 import React from "react";
 import { Badge } from "../../components/ui/badge";
 import { ServicesSection } from "../../components/ServicesSection";
+import WhyChooseTempho from "../../components/WhyChooseTempho";
+import CTASection from "../../components/CTASection";
 import Header from "../../components/Header";
 import HeroSection from "../../components/HeroSection";
 
@@ -25,33 +27,16 @@ export const House = (): JSX.Element => {
             </div>
 
             <div className="space-y-6 md:space-y-8">
-              <p className="w-full max-w-none lg:max-w-[1043px] [font-family:'Golos_Text',Helvetica] font-medium text-black text-xl md:text-2xl lg:text-[40px] leading-relaxed md:leading-[1.3] lg:leading-10 tracking-[0]">
-                Prevail in the subahs Turbo Pack is a new, high-performance bundler
-                designed to speed up development in Next.js. It's built by Vercel,
-                the creators of Next.js, and is intended to replace{" "}
-                <a
-                  href="https://www.google.com/search?sca_esv=12c7b01f52a29939&amp;rlz=1C1NDCM_enNG1030NG1030&amp;sxsrf=AE3TifNnBaIZBTcdMSmJJm3hmPwAzHy5qA%3A1753015930808&amp;q=Webpack&amp;sa=X&amp;ved=2ahUKEwi5sN2evcuOAxWSE1kFHbkcB-oQxccNegQIIxAB&amp;mstk=AUtExfBF0Z33ag7MkcoefjUTjtrCF9fF3FR54q6yJjlostu22nzvpJXZVV0LLqow4xrpnTvD_ung6IJfcq5f0THVaULczWVGKkNzYSin0Smr9nHwegWMhTR1O8XeetOqOGjAlrVyjMA86WiD8Lu_bxY5VfuyBdDV_tkHNPPR3vD8WCUn2VI&amp;csui=3"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="font-medium tracking-[0.5px] md:tracking-[0.8px] lg:tracking-[1.12px] leading-[1.3] lg:leading-[50.8px] underline hover:text-[#569b6f] transition-colors"
-                >
-                  Webpack
-                </a>{" "}
-                as the default bundler for Next.js applications.{" "}
+              <h2 className="w-full max-w-none lg:max-w-[1043px] [font-family:'Golos_Text',Helvetica] font-medium text-black text-xl md:text-2xl lg:text-[40px] leading-relaxed md:leading-[1.3] lg:leading-10 tracking-[0]">
+                Your Gateway to Seamless Canadian Living
+              </h2>
+
+              <p className="ml-auto w-full max-w-none md:max-w-[600px] lg:max-w-[573px] [font-family:'Golos_Text',Helvetica] font-medium text-[#6b6b6b] text-lg md:text-xl lg:text-[25px] tracking-[0.3px] md:tracking-[0.4px] lg:tracking-[0.44px] leading-relaxed md:leading-[1.3] lg:leading-[31.8px]">
+                At Tempho, we believe finding a home should be simple, transparent, and stress-free. We connect you with high-quality, verified rental properties—offering flexible terms and tailored options to suit your needs.
               </p>
 
               <p className="ml-auto w-full max-w-none md:max-w-[600px] lg:max-w-[573px] [font-family:'Golos_Text',Helvetica] font-medium text-[#6b6b6b] text-lg md:text-xl lg:text-[25px] tracking-[0.3px] md:tracking-[0.4px] lg:tracking-[0.44px] leading-relaxed md:leading-[1.3] lg:leading-[31.8px]">
-                in{" "}
-                <a
-                  href="https://www.google.com/search?sca_esv=12c7b01f52a29939&amp;rlz=1C1NDCM_enNG1030NG1030&amp;sxsrf=AE3TifNnBaIZBTcdMSmJJm3hmPwAzHy5qA%3A1753015930808&amp;q=Rust&amp;sa=X&amp;ved=2ahUKEwi5sN2evcuOAxWSE1kFHbkcB-oQxccNegQINxAB&amp;mstk=AUtExfBF0Z33ag7MkcoefjUTjtrCF9fF3FR54q6yJjlostu22nzvpJXZVV0LLqow4xrpnTvD_ung6IJfcq5f0THVaULczWVGKkNzYSin0Smr9nHwegWMhTR1O8XeetOqOGjAlrVyjMA86WiD8Lu_bxY5VfuyBdDV_tkHNPPR3vD8WCUn2VI&amp;csui=3"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="underline hover:text-[#569b6f] transition-colors"
-                >
-                  Rust
-                </a>
-                , which allows it to leverage the language's speed and efficiency
-                for faster builds and more responsive development experiences
+                From modern condos to family townhouses, we combine local expertise with advanced tools to deliver an effortless rental experience.
               </p>
             </div>
           </div>
@@ -59,6 +44,12 @@ export const House = (): JSX.Element => {
 
         {/* Services Section with Airbnb-Style Carousel */}
         <ServicesSection />
+
+        {/* Why Choose Tempho Section */}
+        <WhyChooseTempho />
+
+        {/* Call to Action Section */}
+        <CTASection />
       </div>
     </main>
   );

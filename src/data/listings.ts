@@ -7,6 +7,7 @@ export interface PropertyListing {
   beds: number;
   baths: number;
   garage: number;
+  slug: string;
 }
 
 export const propertyListings: PropertyListing[] = [
@@ -19,6 +20,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    slug: "500-halderfair-tower",
   },
   {
     id: 2,
@@ -29,6 +31,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    slug: "54-ferrinhill-street",
   },
   {
     id: 3,
@@ -39,6 +42,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 1,
+    slug: "23-siennalane-hill",
   },
   {
     id: 4,
@@ -49,6 +53,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 2,
+    slug: "789-maple-street",
   },
   {
     id: 5,
@@ -59,6 +64,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 4,
     baths: 3,
     garage: 2,
+    slug: "456-oak-avenue",
   },
   {
     id: 6,
@@ -69,6 +75,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 1,
     baths: 1,
     garage: 1,
+    slug: "123-pine-road",
   },
 ];
 
