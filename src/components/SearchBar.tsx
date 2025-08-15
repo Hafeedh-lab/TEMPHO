@@ -10,7 +10,6 @@ interface SearchBarProps {
   isScrolled: boolean;
   isMobile?: boolean;
   className?: string;
-  onOverlayChange?: (active: boolean) => void;
 }
 
 const priceLabels: Record<string, string> = {
@@ -24,8 +23,7 @@ const priceLabels: Record<string, string> = {
 export const SearchBar: React.FC<SearchBarProps> = ({
   isScrolled,
   isMobile = false,
-  className = '',
-  onOverlayChange
+  className = ''
 }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,10 +38,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const locationRef = useRef<HTMLButtonElement>(null);
   const priceRef = useRef<HTMLButtonElement>(null);
   const guestsRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    onOverlayChange?.(active !== null);
-  }, [active, onOverlayChange]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync state with URL when on listings page
   useEffect(() => {
@@ -76,11 +71,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     if (ref) {
       const rect = ref.getBoundingClientRect();
       const dropdownWidth = 256; // 16rem
-      let left = rect.left + window.scrollX;
+      let left = rect.left;
       if (type === 'guests') {
-        left = rect.right + window.scrollX - dropdownWidth;
+        left = rect.right - dropdownWidth;
       }
-      setDropdownStyle({ top: rect.bottom + window.scrollY + 8, left, width: dropdownWidth, marginTop: 0 });
+      setDropdownStyle({ top: rect.bottom + 8, left, width: dropdownWidth });
     }
     setActive(type);
   };
@@ -122,8 +117,30 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     setDropdownStyle(null);
   };
 
+  useEffect(() => {
+    if (!active) return;
+    const handleDocumentClick = (e: MouseEvent | TouchEvent) => {
+      const dropdown = document.querySelector('.dropdown-desktop.open');
+      const modal = document.querySelector('.modal-mobile.open');
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node) &&
+        !(dropdown && dropdown.contains(e.target as Node)) &&
+        !(modal && modal.contains(e.target as Node))
+      ) {
+        handleClickOutside();
+      }
+    };
+    document.addEventListener('mousedown', handleDocumentClick);
+    document.addEventListener('touchstart', handleDocumentClick);
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick);
+      document.removeEventListener('touchstart', handleDocumentClick);
+    };
+  }, [active]);
+
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${className}`}>
+    <div ref={containerRef} className={`relative transition-all duration-300 ease-in-out ${className}`}>
       <div
         className={`bg-white rounded-full border-2 border-[#4CAF87]/30 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${isScrolled ? 'h-12' : 'h-16'}`}
       >
