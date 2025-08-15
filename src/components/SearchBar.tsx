@@ -10,7 +10,6 @@ interface SearchBarProps {
   isScrolled: boolean;
   isMobile?: boolean;
   className?: string;
-  onOverlayChange?: (active: boolean) => void;
 }
 
 const priceLabels: Record<string, string> = {
@@ -24,8 +23,7 @@ const priceLabels: Record<string, string> = {
 export const SearchBar: React.FC<SearchBarProps> = ({
   isScrolled,
   isMobile = false,
-  className = '',
-  onOverlayChange
+  className = ''
 }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,10 +38,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const locationRef = useRef<HTMLButtonElement>(null);
   const priceRef = useRef<HTMLButtonElement>(null);
   const guestsRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    onOverlayChange?.(active !== null);
-  }, [active, onOverlayChange]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Sync state with URL when on listings page
   useEffect(() => {
@@ -76,11 +72,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     if (ref) {
       const rect = ref.getBoundingClientRect();
       const dropdownWidth = 256; // 16rem
-      let left = rect.left + window.scrollX;
+      let left = rect.left;
       if (type === 'guests') {
-        left = rect.right + window.scrollX - dropdownWidth;
+        left = rect.right - dropdownWidth;
       }
-      setDropdownStyle({ top: rect.bottom + window.scrollY + 8, left, width: dropdownWidth, marginTop: 0 });
+      setDropdownStyle({ top: rect.bottom, left, width: dropdownWidth });
     }
     setActive(type);
   };
@@ -106,6 +102,58 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     setDropdownStyle(null);
   };
 
+  // Keep dropdown attached to its trigger on scroll/resize
+  useEffect(() => {
+    const updatePosition = () => {
+      if (!active) return;
+      const ref =
+        active === 'location'
+          ? locationRef.current
+          : active === 'price'
+          ? priceRef.current
+          : guestsRef.current;
+      if (ref) {
+        const rect = ref.getBoundingClientRect();
+        const dropdownWidth = 256;
+        let left = rect.left;
+        if (active === 'guests') {
+          left = rect.right - dropdownWidth;
+        }
+        setDropdownStyle({ top: rect.bottom, left, width: dropdownWidth });
+      }
+    };
+
+    updatePosition();
+    window.addEventListener('scroll', updatePosition);
+    window.addEventListener('resize', updatePosition);
+    return () => {
+      window.removeEventListener('scroll', updatePosition);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [active]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!active) return;
+    const handleOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target)
+      ) {
+        handleClickOutside();
+      }
+    };
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+    };
+  }, [active]);
+
   const isActiveSearch = Boolean(active || location || price || guests !== 1);
 
   const handleSearch = () => {
@@ -123,7 +171,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${className}`}>
+    <div ref={containerRef} className={`relative transition-all duration-300 ease-in-out ${className}`}>
       <div
         className={`bg-white rounded-full border-2 border-[#4CAF87]/30 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${isScrolled ? 'h-12' : 'h-16'}`}
       >
@@ -199,6 +247,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           style={dropdownStyle ?? undefined}
           onSelect={handleLocationSelect}
           onClose={handleClickOutside}
+          dropdownRef={dropdownRef}
         />
       )}
 
@@ -208,6 +257,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           style={dropdownStyle ?? undefined}
           onSelect={handlePriceSelect}
           onClose={handleClickOutside}
+          dropdownRef={dropdownRef}
         />
       )}
 
@@ -218,6 +268,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           guests={guests}
           onSelect={handleGuestsSelect}
           onClose={handleClickOutside}
+          dropdownRef={dropdownRef}
         />
       )}
     </div>
