@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import LocationDropdown from './LocationDropdown';
 import PriceDropdown from './PriceDropdown';
@@ -22,6 +22,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [price, setPrice] = useState('');
   const [guests, setGuests] = useState(1);
   const [active, setActive] = useState<null | 'location' | 'price' | 'guests'>(null);
+
+  const locationRef = useRef<HTMLButtonElement>(null);
+  const priceRef = useRef<HTMLButtonElement>(null);
+  const guestsRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     onOverlayChange?.(active !== null);
@@ -64,6 +68,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       >
         <div className="flex items-center h-full overflow-hidden">
           <button
+            ref={locationRef}
             className="flex-1 px-4 md:px-6 text-left border-r border-[#4CAF87]/20 focus:outline-none"
             onClick={() => setActive('location')}
           >
@@ -80,6 +85,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
+            ref={priceRef}
             className="flex-1 px-4 md:px-6 text-left border-r border-[#4CAF87]/20 focus:outline-none"
             onClick={() => setActive('price')}
           >
@@ -96,6 +102,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
+            ref={guestsRef}
             className="flex-1 px-4 md:px-6 text-left focus:outline-none"
             onClick={() => setActive('guests')}
           >
@@ -128,7 +135,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'location' && (
         <LocationDropdown
           isMobile={isMobile}
-          className="left-0"
+          anchorRect={locationRef.current?.getBoundingClientRect() || null}
           onSelect={handleLocationSelect}
           onClose={handleClickOutside}
         />
@@ -137,7 +144,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'price' && (
         <PriceDropdown
           isMobile={isMobile}
-          className="left-1/3"
+          anchorRect={priceRef.current?.getBoundingClientRect() || null}
           onSelect={handlePriceSelect}
           onClose={handleClickOutside}
         />
@@ -146,7 +153,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {active === 'guests' && (
         <GuestsDropdown
           isMobile={isMobile}
-          className="right-0"
+          anchorRect={guestsRef.current?.getBoundingClientRect() || null}
           guests={guests}
           onSelect={handleGuestsSelect}
           onClose={handleClickOutside}

@@ -1,7 +1,6 @@
 .dropdown-desktop {
   position: absolute;
-  top: 100%;
-  margin-top: 0.5rem;
+  /* Coordinates provided inline when rendered through portals */
   width: 16rem;
   background: #fff;
   border: 1px solid rgba(76, 175, 135, 0.2);
@@ -11,7 +10,7 @@
   opacity: 0;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 50;
+  z-index: 1000;
   overflow: hidden;
 }
 
@@ -35,7 +34,7 @@
 .dropdown-modal {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 1000;
   display: flex;
   align-items: flex-end;
   background: rgba(0, 0, 0, 0.3);
@@ -80,4 +79,3 @@
   background-color: rgba(76, 175, 135, 0.05);
   border-color: #4CAF87;
 }
-

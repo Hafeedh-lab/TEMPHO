@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Button } from './ui/button';
 import './Dropdown.css';
 
@@ -8,6 +9,7 @@ interface GuestsDropdownProps {
   onClose: () => void;
   isMobile?: boolean;
   className?: string;
+  anchorRect?: DOMRect | null;
 }
 
 const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
@@ -15,7 +17,8 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
   onSelect,
   onClose,
   isMobile = false,
-  className = ''
+  className = '',
+  anchorRect = null,
 }) => {
   const [count, setCount] = useState(guests);
 
@@ -59,7 +62,7 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
   );
 
   if (isMobile) {
-    return (
+    return createPortal(
       <div className="dropdown-modal" onClick={onClose}>
         <div className="modal-mobile open" onClick={(e) => e.stopPropagation()}>
           <div className="flex justify-between items-center mb-4">
@@ -70,12 +73,29 @@ const GuestsDropdown: React.FC<GuestsDropdownProps> = ({
           </div>
           {controls}
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
-  return (
-    <div className={`dropdown-desktop open ${className}`}>{controls}</div>
+  if (!anchorRect) return null;
+
+  const width = 256; // 16rem
+  let left = anchorRect.left;
+  if (left + width > window.innerWidth) {
+    left = window.innerWidth - width - 16;
+  }
+
+  const style: React.CSSProperties = {
+    top: anchorRect.bottom + window.scrollY + 8,
+    left,
+  };
+
+  return createPortal(
+    <div className={`dropdown-desktop open ${className}`} style={style}>
+      {controls}
+    </div>,
+    document.body
   );
 };
 
