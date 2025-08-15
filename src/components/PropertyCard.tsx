@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from './ui/card';
 import { PropertyListing } from '../data/listings';
+import { Link } from 'react-router-dom';
 
 interface PropertyCardProps {
   property: PropertyListing;
@@ -8,8 +9,9 @@ interface PropertyCardProps {
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   return (
-    <Card className="w-[280px] md:w-[320px] lg:w-[360px] h-auto bg-transparent border-none shadow-none flex-shrink-0 cursor-pointer group">
-      <CardContent className="p-0">
+    <Link to={`/listings/${property.slug}`} className="block">
+      <Card className="w-[280px] md:w-[320px] lg:w-[360px] h-auto bg-transparent border-none shadow-none flex-shrink-0 cursor-pointer group">
+        <CardContent className="p-0">
         {/* Property Image */}
         <div className="relative overflow-hidden rounded-xl mb-3">
           <img
@@ -43,8 +45,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             {property.beds} Bed{property.beds !== 1 ? 's' : ''} | {property.baths} Bath{property.baths !== 1 ? 's' : ''} | {property.garage}-Car Garage
           </div>
         </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 

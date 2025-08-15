@@ -1,5 +1,6 @@
 export interface PropertyListing {
   id: number;
+  slug: string;
   imageUrl: string;
   price: string;
   propertyType: string;
@@ -12,6 +13,7 @@ export interface PropertyListing {
 export const propertyListings: PropertyListing[] = [
   {
     id: 1,
+    slug: "500-halderfair-tower",
     imageUrl: "https://c.animaapp.com/mdww1mm3xpw4UO/img/mask-group-3.png",
     price: "CA$ 1500/month",
     propertyType: "Condominium",
@@ -22,6 +24,7 @@ export const propertyListings: PropertyListing[] = [
   },
   {
     id: 2,
+    slug: "54-ferrinhill-street",
     imageUrl: "https://c.animaapp.com/mdww1mm3xpw4UO/img/mask-group-4.png",
     price: "CA$ 1500/month",
     propertyType: "Apartment",
@@ -32,6 +35,7 @@ export const propertyListings: PropertyListing[] = [
   },
   {
     id: 3,
+    slug: "23-siennalane-hill",
     imageUrl: "https://c.animaapp.com/mdww1mm3xpw4UO/img/mask-group-5.png",
     price: "CA$ 1500/month",
     propertyType: "House",
@@ -42,6 +46,7 @@ export const propertyListings: PropertyListing[] = [
   },
   {
     id: 4,
+    slug: "789-maple-street",
     imageUrl: "https://c.animaapp.com/mdww1mm3xpw4UO/img/mask-group-3.png",
     price: "CA$ 1800/month",
     propertyType: "Townhouse",
@@ -52,6 +57,7 @@ export const propertyListings: PropertyListing[] = [
   },
   {
     id: 5,
+    slug: "456-oak-avenue",
     imageUrl: "https://c.animaapp.com/mdww1mm3xpw4UO/img/mask-group-4.png",
     price: "CA$ 2200/month",
     propertyType: "Detached House",
@@ -62,6 +68,7 @@ export const propertyListings: PropertyListing[] = [
   },
   {
     id: 6,
+    slug: "123-pine-road",
     imageUrl: "https://c.animaapp.com/mdww1mm3xpw4UO/img/mask-group-5.png",
     price: "CA$ 1200/month",
     propertyType: "Studio",
