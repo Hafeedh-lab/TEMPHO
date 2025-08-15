@@ -10,7 +10,6 @@ interface SearchBarProps {
   isScrolled: boolean;
   isMobile?: boolean;
   className?: string;
-  onOverlayChange?: (active: boolean) => void;
 }
 
 const priceLabels: Record<string, string> = {
@@ -24,8 +23,7 @@ const priceLabels: Record<string, string> = {
 export const SearchBar: React.FC<SearchBarProps> = ({
   isScrolled,
   isMobile = false,
-  className = '',
-  onOverlayChange
+  className = ''
 }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,13 +35,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [active, setActive] = useState<null | 'location' | 'price' | 'guests'>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLButtonElement>(null);
   const priceRef = useRef<HTMLButtonElement>(null);
   const guestsRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    onOverlayChange?.(active !== null);
-  }, [active, onOverlayChange]);
 
   // Sync state with URL when on listings page
   useEffect(() => {
@@ -70,18 +65,22 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const formatGuests = (n: number) => (n === 1 ? '1 guest' : `${n} guests`);
 
-  const openDropdown = (type: 'location' | 'price' | 'guests') => {
+  const calculatePosition = (type: 'location' | 'price' | 'guests') => {
     const ref =
       type === 'location' ? locationRef.current : type === 'price' ? priceRef.current : guestsRef.current;
     if (ref) {
       const rect = ref.getBoundingClientRect();
       const dropdownWidth = 256; // 16rem
-      let left = rect.left + window.scrollX;
+      let left = rect.left;
       if (type === 'guests') {
-        left = rect.right + window.scrollX - dropdownWidth;
+        left = rect.right - dropdownWidth;
       }
-      setDropdownStyle({ top: rect.bottom + window.scrollY + 8, left, width: dropdownWidth, marginTop: 0 });
+      setDropdownStyle({ top: rect.bottom + 8, left, width: dropdownWidth, marginTop: 0 });
     }
+  };
+
+  const openDropdown = (type: 'location' | 'price' | 'guests') => {
+    calculatePosition(type);
     setActive(type);
   };
 
@@ -122,8 +121,37 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     setDropdownStyle(null);
   };
 
+  useEffect(() => {
+    if (!active || isMobile) return;
+
+    const handlePosition = () => calculatePosition(active as 'location' | 'price' | 'guests');
+    const handleGlobalClick = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        containerRef.current?.contains(target) ||
+        target.closest('.dropdown-desktop') ||
+        target.closest('.modal-mobile')
+      ) {
+        return;
+      }
+      handleClickOutside();
+    };
+
+    window.addEventListener('scroll', handlePosition);
+    window.addEventListener('resize', handlePosition);
+    document.addEventListener('mousedown', handleGlobalClick);
+    document.addEventListener('touchstart', handleGlobalClick);
+
+    return () => {
+      window.removeEventListener('scroll', handlePosition);
+      window.removeEventListener('resize', handlePosition);
+      document.removeEventListener('mousedown', handleGlobalClick);
+      document.removeEventListener('touchstart', handleGlobalClick);
+    };
+  }, [active, isMobile]);
+
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${className}`}>
+    <div ref={containerRef} className={`relative transition-all duration-300 ease-in-out ${className}`}>
       <div
         className={`bg-white rounded-full border-2 border-[#4CAF87]/30 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${isScrolled ? 'h-12' : 'h-16'}`}
       >
