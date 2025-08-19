@@ -19,11 +19,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
               images={property.images}
               alt={`${property.propertyType} at ${property.address}`}
               className="w-full h-[200px] md:h-[240px] lg:h-[280px]"
-              autoPlay={true}
-              showArrows={true}
+              autoPlay={property.images.length > 1}
+              showArrows={property.images.length > 1}
             />
             {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
+            <div className="pointer-events-none absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
           </div>
 
           {/* Property Details */}

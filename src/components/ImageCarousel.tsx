@@ -37,34 +37,39 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
     );
   }
 
-  // Auto-play functionality
-  useEffect(() => {
+  // Helpers to control autoplay interval
+  const stopAutoPlay = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
+  const startAutoPlay = () => {
     if (autoPlay && isHovered && images.length > 1) {
+      stopAutoPlay();
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
       }, 1800);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
     }
+  };
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
+  // Auto-play functionality
+  useEffect(() => {
+    startAutoPlay();
+    return stopAutoPlay;
   }, [autoPlay, isHovered, images.length]);
 
   const goToPrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    startAutoPlay();
   };
 
   const goToNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % images.length);
+    startAutoPlay();
   };
 
   const handleMouseEnter = () => {
@@ -83,6 +88,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
         <img
           src={images[0]}
           alt={alt}
+          loading="lazy"
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
         />
@@ -103,6 +109,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
             key={index}
             src={image}
             alt={`${alt} - Image ${index + 1}`}
+            loading="lazy"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 cursor-pointer ${
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}

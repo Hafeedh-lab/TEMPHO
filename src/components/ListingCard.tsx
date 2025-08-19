@@ -9,8 +9,8 @@ interface ListingCardProps {
 }
 
 export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick, selected }) => {
-  // Convert single image to array for carousel compatibility
-  const images = listing.image ? [listing.image] : [];
+  // Use provided images array or fall back to single image
+  const images = listing.images && listing.images.length ? listing.images : listing.image ? [listing.image] : [];
   
   return (
     <div
@@ -21,8 +21,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick, sele
         images={images}
         alt={listing.title}
         className="w-full h-48"
-        autoPlay={false}
-        showArrows={false}
+        autoPlay={images.length > 1}
+        showArrows={images.length > 1}
       />
       <div className="p-4 space-y-1">
         <h3 className="text-lg font-semibold text-[#4CAF87] [font-family:'Golos_Text',Helvetica]">

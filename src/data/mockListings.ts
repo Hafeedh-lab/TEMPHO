@@ -1,11 +1,24 @@
-export const mockListings = [
+import { propertyListings } from './listings';
+
+export interface Listing {
+  id: number;
+  title: string;
+  location: string;
+  price: number;
+  guests: number;
+  images: string[];
+  image?: string;
+  coordinates: { lat: number; lng: number };
+}
+
+export const mockListings: Listing[] = [
   {
     id: 1,
     title: "Modern Condo in Downtown Toronto",
     location: "Toronto, Canada",
     price: 1800,
     guests: 2,
-    image: "/images/listing1.jpg",
+    images: propertyListings[0].images,
     coordinates: { lat: 43.6532, lng: -79.3832 }
   },
   {
@@ -14,7 +27,7 @@ export const mockListings = [
     location: "Vancouver, Canada",
     price: 1500,
     guests: 4,
-    image: "/images/listing2.jpg",
+    images: propertyListings[1].images,
     coordinates: { lat: 49.2827, lng: -123.1207 }
   },
   {
@@ -23,7 +36,7 @@ export const mockListings = [
     location: "Montreal, Canada",
     price: 2500,
     guests: 5,
-    image: "/images/listing3.jpg",
+    images: propertyListings[2].images,
     coordinates: { lat: 45.5017, lng: -73.5673 }
   },
   {
@@ -32,9 +45,8 @@ export const mockListings = [
     location: "Calgary, Canada",
     price: 1300,
     guests: 3,
-    image: "/images/listing4.jpg",
+    images: propertyListings[3].images,
     coordinates: { lat: 51.0447, lng: -114.0719 }
   }
 ];
 
-export type Listing = typeof mockListings[number];
