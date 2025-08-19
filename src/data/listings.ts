@@ -84,7 +84,6 @@ export const propertyListings: PropertyListing[] = [
       "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=800",
       "https://images.pexels.com/photos/1918294/pexels-photo-1918294.jpeg?auto=compress&cs=tinysrgb&w=800",
       "https://images.pexels.com/photos/1918299/pexels-photo-1918299.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/1918304/pexels-photo-1918304.jpeg?auto=compress&cs=tinysrgb&w=800",
       "https://images.pexels.com/photos/1918309/pexels-photo-1918309.jpeg?auto=compress&cs=tinysrgb&w=800"
     ],
     price: "CA$2200/month",
