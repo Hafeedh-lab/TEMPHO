@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useResponsive } from '../hooks/useResponsive';
 import MobileImageCarousel from './MobileImageCarousel';
@@ -37,17 +37,20 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
     );
   }
 
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 1800);
+  }, [images.length]);
+
   // Auto-play functionality
   useEffect(() => {
     if (autoPlay && isHovered && images.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-      }, 1800);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+      startAutoPlay();
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
 
     return () => {
@@ -55,16 +58,18 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
         clearInterval(intervalRef.current);
       }
     };
-  }, [autoPlay, isHovered, images.length]);
+  }, [autoPlay, isHovered, images.length, startAutoPlay]);
 
   const goToPrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    if (autoPlay && isHovered) startAutoPlay();
   };
 
   const goToNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % images.length);
+    if (autoPlay && isHovered) startAutoPlay();
   };
 
   const handleMouseEnter = () => {
@@ -85,6 +90,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -107,6 +113,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={onImageClick}
+            loading="lazy"
           />
         ))}
       </div>

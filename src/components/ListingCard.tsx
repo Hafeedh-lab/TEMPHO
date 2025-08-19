@@ -2,15 +2,19 @@ import React from 'react';
 import { Listing } from '../data/mockListings';
 import { ImageCarousel } from './ImageCarousel';
 
+interface ListingWithImages extends Listing {
+  images?: string[];
+}
+
 interface ListingCardProps {
-  listing: Listing;
+  listing: ListingWithImages;
   onClick?: () => void;
   selected?: boolean;
 }
 
 export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick, selected }) => {
-  // Convert single image to array for carousel compatibility
-  const images = listing.image ? [listing.image] : [];
+  // Use provided images array or fallback to single image
+  const images = listing.images && listing.images.length > 0 ? listing.images : listing.image ? [listing.image] : [];
   
   return (
     <div
@@ -21,8 +25,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick, sele
         images={images}
         alt={listing.title}
         className="w-full h-48"
-        autoPlay={false}
-        showArrows={false}
+        autoPlay={true}
+        showArrows={true}
       />
       <div className="p-4 space-y-1">
         <h3 className="text-lg font-semibold text-[#4CAF87] [font-family:'Golos_Text',Helvetica]">
