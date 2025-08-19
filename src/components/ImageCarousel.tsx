@@ -85,6 +85,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -107,6 +108,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={onImageClick}
+            loading="lazy"
           />
         ))}
       </div>
