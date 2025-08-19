@@ -109,16 +109,82 @@ export const propertyListings: PropertyListing[] = [
     baths: 1,
     garage: 1,
   },
+  {
+    id: 7,
+    slug: '500-halderfair-tower-2',
+    images: [
+      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396125/pexels-photo-1396125.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396129/pexels-photo-1396129.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396135/pexels-photo-1396135.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1500/month",
+    propertyType: "Condominium",
+    address: "500 Halderfair Tower",
+    beds: 2,
+    baths: 2,
+    garage: 1,
+  },
+  {
+    id: 8,
+    slug: '54-ferrinhill-street-2',
+    images: [
+      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571471/pexels-photo-1571471.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1500/month",
+    propertyType: "Apartment",
+    address: "54 Ferrinhill Street",
+    beds: 2,
+    baths: 2,
+    garage: 1,
+  },
+  {
+    id: 9,
+    slug: '23-siennalane-hill-2',
+    images: [
+      "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1643389/pexels-photo-1643389.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1643395/pexels-photo-1643395.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1643401/pexels-photo-1643401.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1500/month",
+    propertyType: "House",
+    address: "23 Siennalane Hill",
+    beds: 3,
+    baths: 2,
+    garage: 1,
+  },
+  {
+    id: 10,
+    slug: '789-maple-street-2',
+    images: [
+      "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1732417/pexels-photo-1732417.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1732421/pexels-photo-1732421.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1732424/pexels-photo-1732424.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1800/month",
+    propertyType: "Townhouse",
+    address: "789 Maple Street",
+    beds: 3,
+    baths: 2,
+    garage: 2,
+  },
 ];
 
 // Group listings by category for carousel display
 export const listingCategories = [
   {
     title: "Featured Properties",
-    listings: propertyListings.slice(0, 3),
+    listings: propertyListings.slice(0, 5),
   },
   {
     title: "New Listings",
-    listings: propertyListings.slice(3, 6),
+    listings: propertyListings.slice(5),
   },
 ];

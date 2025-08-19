@@ -14,7 +14,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   images,
   alt,
   className = '',
-  autoPlay = false,
+  autoPlay = true,
   onImageClick
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -73,6 +73,10 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const handleMouseLeave = () => {
     setIsHovered(false);
     setCurrentIndex(0); // Reset to first image
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
   };
 
   // If only one image, display it normally
