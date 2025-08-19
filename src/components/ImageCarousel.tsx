@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useResponsive } from '../hooks/useResponsive';
 import MobileImageCarousel from './MobileImageCarousel';
 
@@ -8,7 +7,6 @@ interface ImageCarouselProps {
   alt: string;
   className?: string;
   autoPlay?: boolean;
-  showArrows?: boolean;
   onImageClick?: () => void;
 }
 
@@ -17,7 +15,6 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   alt,
   className = '',
   autoPlay = false,
-  showArrows = true,
   onImageClick
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -37,44 +34,45 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
     );
   }
 
-  // Auto-play functionality
-  useEffect(() => {
-    if (autoPlay && isHovered && images.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-      }, 1800);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 1800);
+  }, [images.length]);
+
+  const stopAutoPlay = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
+  }, []);
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [autoPlay, isHovered, images.length]);
-
-  const goToPrevious = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  const goToIndex = (index: number) => {
+    setCurrentIndex(index);
   };
 
-  const goToNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % images.length);
+  const handleDotClick = (index: number) => {
+    goToIndex(index);
+    if (autoPlay && isHovered) startAutoPlay();
   };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    if (autoPlay && images.length > 1) startAutoPlay();
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    stopAutoPlay();
     setCurrentIndex(0); // Reset to first image
   };
+
+  useEffect(() => {
+    return () => {
+      stopAutoPlay();
+    };
+  }, [stopAutoPlay]);
 
   // If only one image, display it normally
   if (images.length <= 1) {
@@ -85,6 +83,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -107,39 +106,25 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={onImageClick}
+            loading="lazy"
           />
         ))}
       </div>
 
-      {/* Navigation Arrows - Desktop only */}
-      {showArrows && images.length > 1 && (
-        <>
-          <button
-            onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10 hidden md:flex"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-4 h-4 text-[#4CAF87]" />
-          </button>
-          <button
-            onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10 hidden md:flex"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-4 h-4 text-[#4CAF87]" />
-          </button>
-        </>
-      )}
-
-      {/* Image Indicators */}
+      {/* Dot Indicators */}
       {images.length > 1 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           {images.map((_, index) => (
-            <div
+            <button
               key={index}
-              className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? 'bg-white' : 'bg-white/50'
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDotClick(index);
+              }}
+              className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                index === currentIndex ? 'bg-[#4CAF87]' : 'bg-gray-300'
               }`}
+              aria-label={`Go to image ${index + 1}`}
             />
           ))}
         </div>
