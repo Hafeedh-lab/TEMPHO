@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 interface MobileImageCarouselProps {
   images: string[];
@@ -17,12 +17,14 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [showIndicators, setShowIndicators] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Touch/swipe handling
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
+    setShowIndicators(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -45,12 +47,14 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
         setCurrentIndex(currentIndex - 1);
       }
     }
+    setTimeout(() => setShowIndicators(false), 1500);
   };
 
   // Mouse handling for desktop
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
+    setShowIndicators(true);
     if (containerRef.current) {
       setScrollLeft(containerRef.current.scrollLeft);
     }
@@ -66,10 +70,12 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setTimeout(() => setShowIndicators(false), 1500);
   };
 
   const handleMouseLeave = () => {
     setIsDragging(false);
+    setTimeout(() => setShowIndicators(false), 1500);
   };
 
   if (images.length <= 1) {
@@ -80,6 +86,7 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -107,18 +114,29 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
               className="w-full h-full object-cover cursor-pointer"
               onClick={onImageClick}
               draggable={false}
+              loading="lazy"
             />
           </div>
         ))}
       </div>
 
       {/* Image Indicators */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10">
+      <div
+        className={`absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-2 z-10 transition-opacity duration-300 ${
+          showIndicators ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         {images.map((_, index) => (
-          <div
+          <button
             key={index}
-            className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
-              index === currentIndex ? 'bg-white' : 'bg-white/50'
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setCurrentIndex(index);
+              setShowIndicators(true);
+            }}
+            className={`w-2 h-2 rounded-full focus:outline-none transition-colors duration-200 ${
+              index === currentIndex ? 'bg-[#4CAF87]' : 'bg-gray-300'
             }`}
           />
         ))}
