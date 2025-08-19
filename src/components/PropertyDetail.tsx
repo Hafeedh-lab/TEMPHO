@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import { Button } from './ui/button';
 import { PropertyListing } from '../data/listings';
+import PropertyGallery from './PropertyGallery';
 
 interface PropertyDetailProps {
   property: PropertyListing;
@@ -11,11 +12,13 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => (
   <div className="bg-[#FFF7EB] min-h-screen">
     <Header />
     <div className="container pt-28 pb-16">
-      <img
-        src={property.imageUrl}
-        alt={property.address}
-        className="w-full h-64 md:h-96 object-cover rounded-xl mb-6"
+      {/* Property Gallery */}
+      <PropertyGallery
+        images={property.images}
+        alt={`${property.propertyType} at ${property.address}`}
+        className="mb-8"
       />
+      
       <h1 className="[font-family:'Golos_Text',Helvetica] font-semibold text-3xl md:text-4xl text-black mb-2">
         {property.address}
       </h1>

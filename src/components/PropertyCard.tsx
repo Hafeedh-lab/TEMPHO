@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent } from './ui/card';
 import { PropertyListing } from '../data/listings';
 import { Link } from 'react-router-dom';
+import { ImageCarousel } from './ImageCarousel';
 
 interface PropertyCardProps {
   property: PropertyListing;
@@ -14,10 +15,12 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         <CardContent className="p-0">
           {/* Property Image */}
           <div className="relative overflow-hidden rounded-xl mb-3">
-            <img
-              className="w-full h-[200px] md:h-[240px] lg:h-[280px] object-cover transition-transform duration-300 group-hover:scale-105"
-              alt={`${property.propertyType} property`}
-              src={property.imageUrl}
+            <ImageCarousel
+              images={property.images}
+              alt={`${property.propertyType} at ${property.address}`}
+              className="w-full h-[200px] md:h-[240px] lg:h-[280px]"
+              autoPlay={true}
+              showArrows={true}
             />
             {/* Hover overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
