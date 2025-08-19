@@ -25,6 +25,24 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { isMobile } = useResponsive();
 
+  const startAutoPlay = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    if (autoPlay && images.length > 1) {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+      }, 1800);
+    }
+  };
+
+  const stopAutoPlay = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
   // Use mobile carousel on mobile devices
   if (isMobile) {
     return (
@@ -39,32 +57,29 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   // Auto-play functionality
   useEffect(() => {
-    if (autoPlay && isHovered && images.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-      }, 1800);
+    if (autoPlay && isHovered) {
+      startAutoPlay();
     } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+      stopAutoPlay();
     }
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
+    return () => stopAutoPlay();
   }, [autoPlay, isHovered, images.length]);
 
   const goToPrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    if (isHovered && autoPlay) {
+      startAutoPlay();
+    }
   };
 
   const goToNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % images.length);
+    if (isHovered && autoPlay) {
+      startAutoPlay();
+    }
   };
 
   const handleMouseEnter = () => {
@@ -73,6 +88,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    stopAutoPlay();
     setCurrentIndex(0); // Reset to first image
   };
 
@@ -85,6 +101,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -107,6 +124,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={onImageClick}
+            loading="lazy"
           />
         ))}
       </div>

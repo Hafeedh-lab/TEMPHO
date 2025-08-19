@@ -80,6 +80,7 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -106,6 +107,7 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
               alt={`${alt} - Image ${index + 1}`}
               className="w-full h-full object-cover cursor-pointer"
               onClick={onImageClick}
+              loading="lazy"
               draggable={false}
             />
           </div>
