@@ -10,7 +10,7 @@ export interface PropertyListing {
   garage: number;
 }
 
-export const propertyListings: PropertyListing[] = [
+const basePropertyListings: PropertyListing[] = [
   {
     id: 1,
     slug: '500-halderfair-tower',
@@ -111,14 +111,19 @@ export const propertyListings: PropertyListing[] = [
   },
 ];
 
+export const propertyListings: PropertyListing[] = [
+  ...basePropertyListings,
+  ...basePropertyListings.map((p, idx) => ({ ...p, id: p.id + basePropertyListings.length }))
+];
+
 // Group listings by category for carousel display
 export const listingCategories = [
   {
     title: "Featured Properties",
-    listings: propertyListings.slice(0, 3),
+    listings: propertyListings.slice(0, 6),
   },
   {
     title: "New Listings",
-    listings: propertyListings.slice(3, 6),
+    listings: propertyListings.slice(6),
   },
 ];
