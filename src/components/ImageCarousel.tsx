@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useResponsive } from '../hooks/useResponsive';
-import MobileImageCarousel from './MobileImageCarousel';
 
 interface ImageCarouselProps {
   images: string[];
   alt: string;
   className?: string;
   autoPlay?: boolean;
-  showArrows?: boolean;
   onImageClick?: () => void;
 }
 
@@ -17,66 +14,66 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   alt,
   className = '',
   autoPlay = false,
-  showArrows = true,
   onImageClick
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartX = useRef(0);
   const { isMobile } = useResponsive();
 
-  // Use mobile carousel on mobile devices
-  if (isMobile) {
-    return (
-      <MobileImageCarousel
-        images={images}
-        alt={alt}
-        className={className}
-        onImageClick={onImageClick}
-      />
-    );
-  }
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 1800);
+  }, [images.length]);
 
-  // Auto-play functionality
   useEffect(() => {
-    if (autoPlay && isHovered && images.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-      }, 1800);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+    if (autoPlay && !isMobile && isInteracting && images.length > 1) {
+      startAutoPlay();
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
-
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [autoPlay, isHovered, images.length]);
-
-  const goToPrevious = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  const goToNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
+  }, [autoPlay, isInteracting, isMobile, images.length, startAutoPlay]);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    setIsInteracting(true);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    setCurrentIndex(0); // Reset to first image
+    setIsInteracting(false);
+    setCurrentIndex(0);
   };
 
-  // If only one image, display it normally
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    setIsInteracting(true);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    const threshold = 50;
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+      } else {
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+      }
+    }
+    setTimeout(() => setIsInteracting(false), 1500);
+  };
+
+  const handleDotClick = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex(index);
+    if (autoPlay && !isMobile && isInteracting) startAutoPlay();
+  };
+
   if (images.length <= 1) {
     return (
       <div className={`relative overflow-hidden ${className}`}>
@@ -85,6 +82,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           alt={alt}
           className="w-full h-full object-cover cursor-pointer"
           onClick={onImageClick}
+          loading="lazy"
         />
       </div>
     );
@@ -92,11 +90,12 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   return (
     <div
-      className={`relative overflow-hidden group ${className}`}
+      className={`relative overflow-hidden ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* Images */}
       <div className="relative w-full h-full">
         {images.map((image, index) => (
           <img
@@ -107,39 +106,25 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={onImageClick}
+            loading="lazy"
           />
         ))}
       </div>
 
-      {/* Navigation Arrows - Desktop only */}
-      {showArrows && images.length > 1 && (
-        <>
-          <button
-            onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10 hidden md:flex"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-4 h-4 text-[#4CAF87]" />
-          </button>
-          <button
-            onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 hover:bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10 hidden md:flex"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-4 h-4 text-[#4CAF87]" />
-          </button>
-        </>
-      )}
-
-      {/* Image Indicators */}
       {images.length > 1 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10">
+        <div
+          className={`absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-2 transition-opacity duration-300 ${
+            isInteracting ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
           {images.map((_, index) => (
-            <div
+            <button
               key={index}
-              className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? 'bg-white' : 'bg-white/50'
+              onClick={(e) => handleDotClick(index, e)}
+              className={`w-2 h-2 rounded-full ${
+                index === currentIndex ? 'bg-[#4CAF87]' : 'bg-gray-300'
               }`}
+              aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
