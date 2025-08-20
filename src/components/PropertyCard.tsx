@@ -10,7 +10,7 @@ interface PropertyCardProps {
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   return (
-    <Link to={`/listings/${property.slug}`} className="block">
+    <Link to={`/listing/${property.id}`} className="block">
       <Card className="w-[280px] md:w-[320px] lg:w-[360px] h-auto bg-transparent border-none shadow-none flex-shrink-0 cursor-pointer group">
         <CardContent className="p-0">
           {/* Property Image */}
@@ -20,7 +20,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
               alt={`${property.propertyType} at ${property.address}`}
               className="w-full h-[200px] md:h-[240px] lg:h-[280px]"
               autoPlay={true}
-              showArrows={true}
+              showArrows={false}
             />
             {/* Hover overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 pointer-events-none" />

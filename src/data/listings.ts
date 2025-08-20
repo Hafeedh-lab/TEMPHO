@@ -8,6 +8,7 @@ export interface PropertyListing {
   beds: number;
   baths: number;
   garage: number;
+  coordinates: { lat: number; lng: number };
 }
 
 export const propertyListings: PropertyListing[] = [
@@ -27,6 +28,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 43.6532, lng: -79.3832 },
   },
   {
     id: 2,
@@ -43,6 +45,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 49.2827, lng: -123.1207 },
   },
   {
     id: 3,
@@ -60,6 +63,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 45.5017, lng: -73.5673 },
   },
   {
     id: 4,
@@ -76,6 +80,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 2,
+    coordinates: { lat: 51.0447, lng: -114.0719 },
   },
   {
     id: 5,
@@ -92,6 +97,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 4,
     baths: 3,
     garage: 2,
+    coordinates: { lat: 45.4215, lng: -75.6972 },
   },
   {
     id: 6,
@@ -107,6 +113,39 @@ export const propertyListings: PropertyListing[] = [
     beds: 1,
     baths: 1,
     garage: 1,
+    coordinates: { lat: 53.5461, lng: -113.4938 },
+  },
+  {
+    id: 7,
+    slug: '88-lakeview-drive',
+    images: [
+      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396129/pexels-photo-1396129.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396135/pexels-photo-1396135.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1700/month",
+    propertyType: "Condominium",
+    address: "88 Lakeview Drive",
+    beds: 2,
+    baths: 1,
+    garage: 1,
+    coordinates: { lat: 44.2312, lng: -76.4860 },
+  },
+  {
+    id: 8,
+    slug: '102-riverview-avenue',
+    images: [
+      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1600/month",
+    propertyType: "Apartment",
+    address: "102 Riverview Avenue",
+    beds: 2,
+    baths: 1,
+    garage: 1,
+    coordinates: { lat: 52.2681, lng: -113.8112 },
   },
 ];
 
@@ -114,10 +153,10 @@ export const propertyListings: PropertyListing[] = [
 export const listingCategories = [
   {
     title: "Featured Properties",
-    listings: propertyListings.slice(0, 3),
+    listings: propertyListings.slice(0, 4),
   },
   {
     title: "New Listings",
-    listings: propertyListings.slice(3, 6),
+    listings: propertyListings.slice(4, 8),
   },
 ];
