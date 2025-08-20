@@ -30,7 +30,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick, sele
         alt={listing.title}
         className="w-full h-48"
         autoPlay={images.length > 1}
-        showArrows={images.length > 1}
+        showArrows={false}
       />
       <div className="p-4 space-y-1">
         <h3 className="text-lg font-semibold text-[#4CAF87] [font-family:'Golos_Text',Helvetica]">
