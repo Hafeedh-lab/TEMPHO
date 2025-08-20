@@ -10,7 +10,7 @@ interface PropertyCardProps {
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   return (
-    <Link to={`/listings/${property.slug}`} className="block">
+    <Link to={`/listing/${property.id}`} className="block">
       <Card className="w-[280px] md:w-[320px] lg:w-[360px] h-auto bg-transparent border-none shadow-none flex-shrink-0 cursor-pointer group">
         <CardContent className="p-0">
           {/* Property Image */}
