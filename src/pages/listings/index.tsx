@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import ListingCard from '../../components/ListingCard';
 import MapPanel from '../../components/MapPanel';
@@ -42,10 +42,6 @@ export const ListingsPage: React.FC = () => {
     listingRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleListingSelect = (id: number) => {
-    setSelected(id);
-  };
-
   // Pagination
   const itemsPerPage = 12;
   const [page, setPage] = useState(1);
@@ -82,11 +78,9 @@ export const ListingsPage: React.FC = () => {
                 ref={(el) => (listingRefs.current[l.id] = el)}
                 className="mb-4"
               >
-                <ListingCard
-                  listing={l}
-                  onClick={() => handleListingSelect(l.id)}
-                  selected={selected === l.id}
-                />
+                <Link to={`/listing/${l.id}`}>
+                  <ListingCard listing={l} selected={selected === l.id} />
+                </Link>
               </div>
             ))}
           </div>

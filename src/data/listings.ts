@@ -8,6 +8,7 @@ export interface PropertyListing {
   beds: number;
   baths: number;
   garage: number;
+  coordinates: { lat: number; lng: number };
 }
 
 export const propertyListings: PropertyListing[] = [
@@ -27,6 +28,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 43.6532, lng: -79.3832 },
   },
   {
     id: 2,
@@ -43,6 +45,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 43.6535, lng: -79.38 },
   },
   {
     id: 3,
@@ -60,6 +63,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 43.654, lng: -79.382 },
   },
   {
     id: 4,
@@ -76,6 +80,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 2,
+    coordinates: { lat: 43.652, lng: -79.385 },
   },
   {
     id: 5,
@@ -92,6 +97,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 4,
     baths: 3,
     garage: 2,
+    coordinates: { lat: 43.651, lng: -79.387 },
   },
   {
     id: 6,
@@ -107,6 +113,7 @@ export const propertyListings: PropertyListing[] = [
     beds: 1,
     baths: 1,
     garage: 1,
+    coordinates: { lat: 43.655, lng: -79.384 },
   },
 ];
 
