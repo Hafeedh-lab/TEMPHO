@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Listing } from '../data/mockListings';
 import 'leaflet/dist/leaflet.css';
@@ -48,7 +48,14 @@ export const MapPanel: React.FC<MapPanelProps> = ({ listings, selectedId, onSele
           position={[l.coordinates.lat, l.coordinates.lng] as any}
           icon={selectedId === l.id ? activeIcon : defaultIcon}
           eventHandlers={{ click: () => onSelect(l.id) }}
-        />
+        >
+          <Popup>
+            <div className="[font-family:'Golos_Text',Helvetica]">
+              <div>{l.title}</div>
+              <div>CA${l.price}/month</div>
+            </div>
+          </Popup>
+        </Marker>
       ))}
     </MapContainer>
   );
