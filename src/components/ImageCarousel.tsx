@@ -17,22 +17,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   autoPlay = false,
   onImageClick
 }) => {
+  // All hooks must be called unconditionally at the top level
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { isMobile } = useResponsive();
-
-  // Use mobile carousel on mobile devices
-  if (isMobile) {
-    return (
-      <MobileImageCarousel
-        images={images}
-        alt={alt}
-        className={className}
-        onImageClick={onImageClick}
-      />
-    );
-  }
 
   const startAutoPlay = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -74,6 +63,19 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
     setIsHovered(false);
     setCurrentIndex(0); // Reset to first image
   };
+
+  // Conditional rendering logic moved after all hooks
+  // Use mobile carousel on mobile devices
+  if (isMobile) {
+    return (
+      <MobileImageCarousel
+        images={images}
+        alt={alt}
+        className={className}
+        onImageClick={onImageClick}
+      />
+    );
+  }
 
   // If only one image, display it normally
   if (images.length <= 1) {
