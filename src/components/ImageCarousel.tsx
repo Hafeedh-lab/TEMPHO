@@ -17,7 +17,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   alt,
   className = '',
   autoPlay = false,
-  showArrows = true,
+  showArrows = false,
   onImageClick
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
