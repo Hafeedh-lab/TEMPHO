@@ -3,19 +3,21 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import ListingCard from '../../components/ListingCard';
 import MapPanel from '../../components/MapPanel';
-import { mockListings } from '../../data/mockListings';
+import { mockListings, Listing } from '../../data/mockListings';
 import { propertyListings } from '../../data/listings';
 import '../../styles/Listings.css';
 
 export const ListingsPage: React.FC = () => {
-  // Merge mock listing data with property listing images
-  const listings = mockListings.map(listing => {
-    const property = propertyListings.find(p => p.id === listing.id);
+  // Use mock listings with demo images
+  const demoListings: (Listing & { images?: string[] })[] = mockListings.map((listing) => {
+    const match = propertyListings.find((p) => p.id === listing.id);
     return {
       ...listing,
-      images: property ? property.images : [listing.image],
+      images: match ? match.images : [listing.image],
     };
   });
+
+  const listings = demoListings;
   const [selected, setSelected] = useState<number | null>(null);
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
