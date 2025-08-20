@@ -93,7 +93,10 @@ const ListingDetail: React.FC = () => {
           onClick={closeModal}
         >
           {/* Control Panel - Outside map container with highest z-index */}
-          <div className="absolute top-4 right-4 z-[9999] flex items-center space-x-3 pointer-events-auto">
+          <div
+            className="absolute top-4 right-4 z-[9999] flex items-center space-x-3 pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Fullscreen Toggle Button */}
             <button
               onClick={toggleFullscreen}
@@ -128,7 +131,10 @@ const ListingDetail: React.FC = () => {
           </div>
 
           {/* Mobile Control Panel - Bottom positioned with highest z-index */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-[9999] md:hidden pointer-events-auto">
+          <div
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-[9999] md:hidden pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="bg-white/95 backdrop-blur-sm border border-gray-200 shadow-xl rounded-full px-6 py-3 flex items-center space-x-6">
               <button
                 onClick={toggleFullscreen}
@@ -168,6 +174,7 @@ const ListingDetail: React.FC = () => {
               price={property.price}
               className={`w-full h-full ${fullscreen ? '' : 'rounded-lg overflow-hidden'}`}
               zoom={15}
+              fullscreen={fullscreen}
             />
           </div>
         </div>

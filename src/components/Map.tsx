@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -16,12 +16,37 @@ interface MapProps {
   price: string;
   className?: string;
   zoom?: number;
+  /**
+   * Optional flag used to trigger a resize of the underlying Leaflet map. When
+   * the container size changes (e.g. toggling fullscreen in a modal) Leaflet
+   * needs to recalculate its dimensions or the map will not fill the new
+   * space. Passing the fullscreen state from the modal allows this component
+   * to invalidate the map size whenever the flag changes.
+   */
+  fullscreen?: boolean;
 }
 
-const Map: React.FC<MapProps> = ({ coordinates, title, price, className = 'w-full h-64', zoom = 13 }) => {
+const Map: React.FC<MapProps> = ({
+  coordinates,
+  title,
+  price,
+  className = 'w-full h-64',
+  zoom = 13,
+  fullscreen = false,
+}) => {
   const position: [number, number] = [coordinates.lat, coordinates.lng];
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const mapRef = useRef<L.Map | null>(null);
+
+  // Whenever the fullscreen flag changes, tell Leaflet to recalculate the
+  // container size. Without this, the map may remain at the previous
+  // dimensions and appear cropped or blank.
+  useEffect(() => {
+    if (mapRef.current) {
+      setTimeout(() => mapRef.current?.invalidateSize(), 0);
+    }
+  }, [fullscreen]);
 
   return (
     <div className={`relative ${className}`}>
@@ -31,7 +56,13 @@ const Map: React.FC<MapProps> = ({ coordinates, title, price, className = 'w-ful
           zoom={zoom}
           className="w-full h-full"
           scrollWheelZoom
-          whenReady={() => setLoading(false)}
+          whenReady={(e) => {
+            setLoading(false);
+            mapRef.current = e.target;
+            // Initial resize in case the map is rendered inside a hidden
+            // container (e.g. a modal) and becomes visible later.
+            setTimeout(() => mapRef.current?.invalidateSize(), 0);
+          }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
