@@ -43,7 +43,7 @@ export const ListingsPage: React.FC = () => {
   };
 
   const handleListingSelect = (id: number) => {
-    setSelected(id);
+    navigate(`/listing/${id}`);
   };
 
   // Pagination

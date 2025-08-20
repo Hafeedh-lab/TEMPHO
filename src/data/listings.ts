@@ -8,6 +8,7 @@ export interface PropertyListing {
   beds: number;
   baths: number;
   garage: number;
+  coordinates: { lat: number; lng: number };
 }
 
 const basePropertyListings: PropertyListing[] = [
@@ -27,6 +28,7 @@ const basePropertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 43.6532, lng: -79.3832 },
   },
   {
     id: 2,
@@ -43,6 +45,7 @@ const basePropertyListings: PropertyListing[] = [
     beds: 2,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 49.2827, lng: -123.1207 },
   },
   {
     id: 3,
@@ -60,6 +63,7 @@ const basePropertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 1,
+    coordinates: { lat: 45.5017, lng: -73.5673 },
   },
   {
     id: 4,
@@ -76,6 +80,7 @@ const basePropertyListings: PropertyListing[] = [
     beds: 3,
     baths: 2,
     garage: 2,
+    coordinates: { lat: 51.0447, lng: -114.0719 },
   },
   {
     id: 5,
@@ -92,6 +97,7 @@ const basePropertyListings: PropertyListing[] = [
     beds: 4,
     baths: 3,
     garage: 2,
+    coordinates: { lat: 45.4215, lng: -75.6972 },
   },
   {
     id: 6,
@@ -107,6 +113,42 @@ const basePropertyListings: PropertyListing[] = [
     beds: 1,
     baths: 1,
     garage: 1,
+    coordinates: { lat: 53.5461, lng: -113.4938 },
+  },
+  {
+    id: 7,
+    slug: '321-birch-lane',
+    images: [
+      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1571471/pexels-photo-1571471.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1400/month",
+    propertyType: "Apartment",
+    address: "321 Birch Lane",
+    beds: 2,
+    baths: 1,
+    garage: 1,
+    coordinates: { lat: 44.0000, lng: -79.5000 },
+  },
+  {
+    id: 8,
+    slug: '901-oakridge-park',
+    images: [
+      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396125/pexels-photo-1396125.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396129/pexels-photo-1396129.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/1396135/pexels-photo-1396135.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    price: "CA$1700/month",
+    propertyType: "Condominium",
+    address: "901 Oakridge Park",
+    beds: 2,
+    baths: 2,
+    garage: 1,
+    coordinates: { lat: 43.7000, lng: -79.4000 },
   },
 ];
 
