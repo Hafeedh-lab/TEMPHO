@@ -42,8 +42,8 @@ export const ListingsPage: React.FC = () => {
     listingRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleListingSelect = (id: number) => {
-    setSelected(id);
+  const handleListingClick = (id: number) => {
+    navigate(`/listing/${id}`);
   };
 
   // Pagination
@@ -84,7 +84,7 @@ export const ListingsPage: React.FC = () => {
               >
                 <ListingCard
                   listing={l}
-                  onClick={() => handleListingSelect(l.id)}
+                  onClick={() => handleListingClick(l.id)}
                   selected={selected === l.id}
                 />
               </div>
