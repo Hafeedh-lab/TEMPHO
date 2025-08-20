@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 interface MobileImageCarouselProps {
   images: string[];
@@ -18,11 +18,15 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showDots, setShowDots] = useState(false);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Touch/swipe handling
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
+    setShowDots(true);
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -33,6 +37,7 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!isDragging) return;
     setIsDragging(false);
+    hideTimeoutRef.current = setTimeout(() => setShowDots(false), 2000);
     
     const endX = e.changedTouches[0].clientX;
     const diffX = startX - endX;
@@ -51,9 +56,11 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
+    setShowDots(true);
     if (containerRef.current) {
       setScrollLeft(containerRef.current.scrollLeft);
     }
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -66,10 +73,12 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    hideTimeoutRef.current = setTimeout(() => setShowDots(false), 2000);
   };
 
   const handleMouseLeave = () => {
     setIsDragging(false);
+    hideTimeoutRef.current = setTimeout(() => setShowDots(false), 2000);
   };
 
   if (images.length <= 1) {
@@ -114,14 +123,23 @@ export const MobileImageCarousel: React.FC<MobileImageCarouselProps> = ({
         ))}
       </div>
 
-      {/* Image Indicators */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10">
+      {/* Dot Indicators */}
+      <div
+        className={`absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10 transition-opacity duration-200 ${
+          showDots ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         {images.map((_, index) => (
-          <div
+          <button
             key={index}
-            className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
-              index === currentIndex ? 'bg-white' : 'bg-white/50'
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentIndex(index);
+            }}
+            className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+              index === currentIndex ? 'bg-[#4CAF87]' : 'bg-gray-300'
             }`}
+            aria-label={`Go to image ${index + 1}`}
           />
         ))}
       </div>
