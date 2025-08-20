@@ -92,76 +92,76 @@ const ListingDetail: React.FC = () => {
           className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${animate ? 'opacity-100' : 'opacity-0'}`}
           onClick={closeModal}
         >
+          {/* Control Panel - Outside map container with highest z-index */}
+          <div className="absolute top-4 right-4 z-[9999] flex items-center space-x-3 pointer-events-auto">
+            {/* Fullscreen Toggle Button */}
+            <button
+              onClick={toggleFullscreen}
+              className="group bg-white hover:bg-gray-50 border border-gray-200 shadow-xl rounded-lg w-12 h-12 flex items-center justify-center text-gray-700 hover:text-[#4CAF87] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#4CAF87] focus:ring-offset-2 hover:scale-105"
+              aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+              title={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            >
+              {fullscreen ? (
+                <Minimize2 className="w-5 h-5 transition-transform group-hover:scale-110" />
+              ) : (
+                <Maximize2 className="w-5 h-5 transition-transform group-hover:scale-110" />
+              )}
+            </button>
+
+            {/* Close/Cancel Button */}
+            <button
+              onClick={closeModal}
+              className="group bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-xl rounded-lg w-12 h-12 flex items-center justify-center text-gray-700 hover:text-red-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 hover:scale-105"
+              aria-label="Close map view"
+              title="Close map view"
+            >
+              <svg 
+                className="w-5 h-5 transition-transform group-hover:scale-110" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Mobile Control Panel - Bottom positioned with highest z-index */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-[9999] md:hidden pointer-events-auto">
+            <div className="bg-white/95 backdrop-blur-sm border border-gray-200 shadow-xl rounded-full px-6 py-3 flex items-center space-x-6">
+              <button
+                onClick={toggleFullscreen}
+                className="flex items-center space-x-2 text-gray-700 hover:text-[#4CAF87] transition-colors"
+                aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+              >
+                {fullscreen ? (
+                  <Minimize2 className="w-4 h-4" />
+                ) : (
+                  <Maximize2 className="w-4 h-4" />
+                )}
+                <span className="text-sm font-medium [font-family:'Golos_Text',Helvetica]">
+                  {fullscreen ? "Exit" : "Fullscreen"}
+                </span>
+              </button>
+              <div className="w-px h-4 bg-gray-300" />
+              <button
+                onClick={closeModal}
+                className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors"
+                aria-label="Close map view"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span className="text-sm font-medium [font-family:'Golos_Text',Helvetica]">Close</span>
+              </button>
+            </div>
+          </div>
+
           <div
             className={`relative bg-white ${fullscreen ? 'w-full h-full' : 'w-11/12 h-5/6 rounded-lg'} transition-all duration-300 transform ${fullscreen ? 'scale-100' : 'scale-95'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Control Panel - Always visible with high z-index */}
-            <div className="absolute top-4 right-4 z-[100] flex items-center space-x-3">
-              {/* Fullscreen Toggle Button */}
-              <button
-                onClick={toggleFullscreen}
-                className="group bg-white hover:bg-gray-50 border border-gray-200 shadow-lg rounded-lg w-12 h-12 flex items-center justify-center text-gray-700 hover:text-[#4CAF87] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#4CAF87] focus:ring-offset-2"
-                aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-                title={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-              >
-                {fullscreen ? (
-                  <Minimize2 className="w-5 h-5 transition-transform group-hover:scale-110" />
-                ) : (
-                  <Maximize2 className="w-5 h-5 transition-transform group-hover:scale-110" />
-                )}
-              </button>
-
-              {/* Close/Cancel Button */}
-              <button
-                onClick={closeModal}
-                className="group bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-lg rounded-lg w-12 h-12 flex items-center justify-center text-gray-700 hover:text-red-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                aria-label="Close map view"
-                title="Close map view"
-              >
-                <svg 
-                  className="w-5 h-5 transition-transform group-hover:scale-110" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Secondary Control Panel for Mobile - Bottom positioned */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-[100] md:hidden">
-              <div className="bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg rounded-full px-4 py-2 flex items-center space-x-4">
-                <button
-                  onClick={toggleFullscreen}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-[#4CAF87] transition-colors"
-                  aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-                >
-                  {fullscreen ? (
-                    <Minimize2 className="w-4 h-4" />
-                  ) : (
-                    <Maximize2 className="w-4 h-4" />
-                  )}
-                  <span className="text-sm font-medium [font-family:'Golos_Text',Helvetica]">
-                    {fullscreen ? "Exit" : "Fullscreen"}
-                  </span>
-                </button>
-                <div className="w-px h-4 bg-gray-300" />
-                <button
-                  onClick={closeModal}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors"
-                  aria-label="Close map view"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  <span className="text-sm font-medium [font-family:'Golos_Text',Helvetica]">Close</span>
-                </button>
-              </div>
-            </div>
-
             <Map
               coordinates={property.coordinates}
               title={property.address}
